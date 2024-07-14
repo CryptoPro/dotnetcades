@@ -1,0 +1,314 @@
+using System;
+using System.Runtime.InteropServices;
+
+namespace dotnetcades
+{
+    public class Signer : IDisposable
+    {
+        IntPtr _CCadesSigner = IntPtr.Zero;
+        bool _bDispose = false;
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_create(ref IntPtr self);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_destroy(IntPtr self);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_get_authenticated_attributes2(IntPtr self, ref IntPtr result);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_get_unauthenticated_attributes(IntPtr self, ref IntPtr result);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_get_certificate(IntPtr self, ref IntPtr result);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_put_certificate(IntPtr self, IntPtr value);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_put_options(IntPtr self, int value);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_get_options(IntPtr self, ref int result);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_get_ocsp_responses(IntPtr self, ref IntPtr result);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_get_crls(IntPtr self, ref IntPtr result);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_put_tsa_address(IntPtr self, string value);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_get_tsa_address(IntPtr self, ref IntPtr result);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_get_signature_timestamp_time(IntPtr self, ref IntPtr result);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_get_signing_time(IntPtr self, ref IntPtr result);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_put_key_pin(IntPtr self, string value);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_get_signature_status(IntPtr self, ref IntPtr result);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_get_check_certificate(IntPtr self, ref int result);
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        public static extern int CCadesSigner_put_check_certificate(IntPtr self, int value);
+
+        public Signer() 
+        {
+            int hresult = CCadesSigner_create(ref _CCadesSigner);
+            if (hresult != 0)
+            {
+                throw new Exception(NC.GetErrorMessage(hresult));
+            }
+            _bDispose = true;
+        }
+        public Signer(IntPtr m)
+        {
+            _CCadesSigner = m;
+            _bDispose = true;
+        }
+        ~Signer()
+        {
+            Dispose();
+        }
+        public static explicit operator IntPtr(Signer value)
+        {
+            return value._CCadesSigner;
+        }
+        public void Dispose()
+        {
+            if (_bDispose)
+            {
+                int hresult = CCadesSigner_destroy(_CCadesSigner);
+                if (hresult != 0)
+                {
+                    Console.WriteLine($"Signer.Dispose() failed: {hresult}");
+                }
+                _bDispose = false;
+            }
+        }
+        public Attributes UnauthenticatedAttributes
+        {
+            get
+            {
+                IntPtr ptr = IntPtr.Zero;
+                int hresult = CCadesSigner_get_unauthenticated_attributes(_CCadesSigner, ref ptr);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+                Attributes result = new Attributes(ptr);
+                return result;
+            }
+        }
+        public Attributes AuthenticatedAttributes2
+        {
+            get
+            {
+                IntPtr ptr = IntPtr.Zero;
+                int hresult = CCadesSigner_get_authenticated_attributes2(_CCadesSigner, ref ptr);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+                Attributes result = new Attributes(ptr);
+                return result;
+            }
+        }
+        public Certificate Certificate
+        {
+            get
+            {
+                IntPtr ptr = IntPtr.Zero;
+                int hresult = CCadesSigner_get_certificate(_CCadesSigner, ref ptr);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+                Certificate result = new Certificate(ptr);
+                return result;
+            }
+            set
+            {
+                int hresult = CCadesSigner_put_certificate(_CCadesSigner, (IntPtr)value);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+            }
+        }
+        public int Options
+        {
+            get
+            {
+                int result = 0;
+                int hresult = CCadesSigner_get_options(_CCadesSigner, ref result);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+                return result;
+            }
+            set
+            {
+                int hresult = CCadesSigner_put_options(_CCadesSigner, value);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+            }
+        }
+        public Blobs CRLs
+        {
+            get
+            {
+                IntPtr ptr = IntPtr.Zero;
+                int hresult = CCadesSigner_get_crls(_CCadesSigner, ref ptr);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+                Blobs result = new Blobs(ptr);
+                return result;
+            }
+        }
+        public Blobs OCSPResponses
+        {
+            get
+            {
+                IntPtr ptr = IntPtr.Zero;
+                int hresult = CCadesSigner_get_ocsp_responses(_CCadesSigner, ref ptr);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+                Blobs result = new Blobs(ptr);
+                return result;
+            }
+        }
+        public string TSAAddress
+        {
+            get
+            {
+                IntPtr ptr = IntPtr.Zero;
+                try
+                {
+                    int hresult = CCadesSigner_get_tsa_address(_CCadesSigner, ref ptr);
+                    if (hresult != 0)
+                    {
+                        throw new Exception(NC.GetErrorMessage(hresult));
+                    }
+                    return Marshal.PtrToStringAuto(ptr);
+                }
+                finally
+                {
+                    NC.FreeString(ptr);
+                }
+            }
+            set
+            {
+                int hresult = CCadesSigner_put_tsa_address(_CCadesSigner, value);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+            }
+        }
+        public string SignatureTimeStampTime
+        {
+            get
+            {
+                IntPtr ptr = IntPtr.Zero;
+                try
+                {
+                    int hresult = CCadesSigner_get_signature_timestamp_time(_CCadesSigner, ref ptr);
+                    if (hresult != 0)
+                    {
+                        throw new Exception(NC.GetErrorMessage(hresult));
+                    }
+                    return Marshal.PtrToStringAuto(ptr);
+                }
+                finally
+                {
+                    NC.FreeString(ptr);
+                }
+            }
+        }
+        public string SigningTime
+        {
+            get
+            {
+                IntPtr ptr = IntPtr.Zero;
+                try
+                {
+                    int hresult = CCadesSigner_get_signing_time(_CCadesSigner, ref ptr);
+                    if (hresult != 0)
+                    {
+                        throw new Exception(NC.GetErrorMessage(hresult));
+                    }
+                    return Marshal.PtrToStringAuto(ptr);
+                }
+                finally
+                {
+                    NC.FreeString(ptr);
+                }
+            }
+        }
+        public string KeyPin
+        {
+            set
+            {
+                int hresult = CCadesSigner_put_key_pin(_CCadesSigner, value);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+            }
+        }
+        public SignatureStatus SignatureStatus
+        {
+            get
+            {
+                IntPtr ptr = IntPtr.Zero;
+                int hresult = CCadesSigner_get_signature_status(_CCadesSigner, ref ptr);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+                SignatureStatus result = new SignatureStatus(ptr);
+                return result;
+            }
+        }
+        public bool CheckCertificate
+        {
+            get
+            {
+                int result = 0;
+                int hresult = CCadesSigner_get_check_certificate(_CCadesSigner, ref result);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+                return result != 0;
+            }
+            set
+            {
+                int iValue = Convert.ToInt32(value);
+                int hresult = CCadesSigner_put_check_certificate(_CCadesSigner, iValue);
+                if (hresult != 0)
+                {
+                    throw new Exception(NC.GetErrorMessage(hresult));
+                }
+            }
+        }
+    }
+}
