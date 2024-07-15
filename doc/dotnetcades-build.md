@@ -17,19 +17,12 @@ sudo ./install.sh
 ```
 sudo apt install ./lsb-cprocsp-devel_5.0*.deb
 ```
-4. Cкачать архив с [КриптоПро ЭЦП SDK](https://cryptopro.ru/products/cades/downloads), 
-распаковать этот архив и установить пакет cprocsp-pki-phpcades 
+4. Скачать исходный код [dotnetcades](https://github.com/CryptoPro/dotnetcades):
 ```
-tar xvf cades_linux_amd64.tar.gz
-cd cades_linux_amd64
-sudo apt install ./cprocsp-pki-phpcades*.deb
+git clone https://github.com/CryptoPro/dotnetcades.git
+cd dotnetcades*
 ```
-5. Скачать и распаковать архив с исходниками [dotnetcades]():
-```
-git clone <link>
-cd dotnetcades_*
-```
-6. Выполнить сборку ccades:
+5. Выполнить сборку ccades:
 ```
 cd ccades
 mkdir build
@@ -37,7 +30,7 @@ cd build
 cmake ..
 make -j4
 ```
-7. Выполнить сборку dotnetcades (и опционально запустить примеры из папки samples)
+6. Выполнить сборку dotnetcades (и опционально запустить примеры из папки samples)
 ```
 dotnet restore
 dotnet build

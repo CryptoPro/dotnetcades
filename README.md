@@ -1,6 +1,6 @@
 # dotnetcades
 
-dotnetcades представляет собой библиотеку для .NET. Расширение реализует интерфейс, аналогичный [CAdESCOM](https://docs.cryptopro.ru/cades/reference/cadescom).
+dotnetcades представляет собой библиотеку для .NET. Библиотека реализует интерфейс, аналогичный [CAdESCOM](https://docs.cryptopro.ru/cades/reference/cadescom).
 
 [Общая информация](https://docs.cryptopro.ru/cades/dotnetcades)
 
