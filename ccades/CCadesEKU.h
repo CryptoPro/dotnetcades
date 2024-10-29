@@ -14,7 +14,7 @@ HRESULT CCadesEKU_destroy(CCadesEKU *m);
 HRESULT CCadesEKU_get_name(CCadesEKU *m, int *result);
 HRESULT CCadesEKU_put_name(CCadesEKU *m, int value);
 HRESULT CCadesEKU_get_oid(CCadesEKU *m, char **result);
-HRESULT CCadesEKU_put_oid(CCadesEKU *m, char* value);
+HRESULT CCadesEKU_put_oid(CCadesEKU *m, char *value);
 
 #ifdef __cplusplus
 }

@@ -44,7 +44,7 @@ namespace dotnetcades
         public static extern int CCadesKeyUsage_get_is_key_encipherment_enabled(IntPtr self, ref int result);
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
-        public static extern int CCadesKeyUsage_get_is_non_repudation_enabled(IntPtr self, ref int result);
+        public static extern int CCadesKeyUsage_get_is_non_repudiation_enabled(IntPtr self, ref int result);
 
         public KeyUsage() 
         {
@@ -70,11 +70,12 @@ namespace dotnetcades
                 Console.WriteLine($"KeyUsage.Dispose() failed: {hresult}");
             }
         }
+
         public bool IsPresent
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesKeyUsage_get_is_present(_CCadesKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -87,7 +88,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesKeyUsage_get_is_critical(_CCadesKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -100,7 +101,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesKeyUsage_get_is_crl_sign_enabled(_CCadesKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -113,7 +114,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesKeyUsage_get_is_data_encipherment_enabled(_CCadesKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -126,7 +127,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesKeyUsage_get_is_decipher_only_enabled(_CCadesKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -139,7 +140,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesKeyUsage_get_is_digital_signature_enabled(_CCadesKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -152,7 +153,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesKeyUsage_get_is_encipher_only_enabled(_CCadesKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -165,7 +166,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesKeyUsage_get_is_key_agreement_enabled(_CCadesKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -178,7 +179,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesKeyUsage_get_is_key_cert_sign_enabled(_CCadesKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -191,7 +192,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesKeyUsage_get_is_key_encipherment_enabled(_CCadesKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -200,12 +201,12 @@ namespace dotnetcades
                 return result != 0;
             }
         }
-        public bool IsNonRepudationEnabled
+        public bool IsNonRepudiationEnabled
         {
             get
             {
-                int result = 0;
-                int hresult = CCadesKeyUsage_get_is_non_repudation_enabled(_CCadesKeyUsage, ref result);
+                int result = default;
+                int hresult = CCadesKeyUsage_get_is_non_repudiation_enabled(_CCadesKeyUsage, ref result);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));

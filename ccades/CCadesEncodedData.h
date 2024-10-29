@@ -1,8 +1,6 @@
 #ifndef CCADESENCODEDDATA_H
 #define CCADESENCODEDDATA_H
 
-#include <stdbool.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

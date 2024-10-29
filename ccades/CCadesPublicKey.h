@@ -23,4 +23,4 @@ HRESULT CCadesPublicKey_get_length(CCadesPublicKey *m, int *result);
 }
 #endif
 
-#endif /* __CCADESPublicKey_H__ */
+#endif /* __CCADESPUBLICKEY_H__ */

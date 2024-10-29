@@ -48,6 +48,14 @@ namespace dotnetcades
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
         }
+        public About(IntPtr m)
+        {
+            _CCadesAbout = m;
+        }
+        public static explicit operator IntPtr(About value)
+        {
+            return value._CCadesAbout;
+        }
         public void Dispose()
         {
             int hresult = CCadesAbout_destroy(_CCadesAbout);
@@ -56,11 +64,12 @@ namespace dotnetcades
                 Console.WriteLine($"About.Dispose() failed: {hresult}");
             }
         }
+
         public string Version
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesAbout_get_version(_CCadesAbout, ref ptr);
@@ -78,7 +87,7 @@ namespace dotnetcades
         }
         public string CSPName(int ProvType = 75)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesAbout_get_csp_name(_CCadesAbout, ProvType, ref ptr);
@@ -97,7 +106,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesAbout_get_major_version(_CCadesAbout, ref result);
                 if (hresult != 0)
                 {
@@ -110,7 +119,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesAbout_get_minor_version(_CCadesAbout, ref result);
                 if (hresult != 0)
                 {
@@ -123,7 +132,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesAbout_get_build_version(_CCadesAbout, ref result);
                 if (hresult != 0)
                 {
@@ -152,7 +161,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesAbout_get_plugin_version(_CCadesAbout, ref ptr);
                 if (hresult != 0)
                 {
@@ -164,14 +173,13 @@ namespace dotnetcades
         }
         public Version CSPVersion(string ProvName = "", int ProvType = 75)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             int hresult = CCadesAbout_get_csp_version(_CCadesAbout, ProvName, ProvType, ref ptr);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
-            Version result = new Version(ptr);
-            return result;
+            return new Version(ptr);
         }
     }
 }

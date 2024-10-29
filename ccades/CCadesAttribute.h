@@ -1,11 +1,11 @@
 #ifndef CCADESATTRIBUTE_H
 #define CCADESATTRIBUTE_H
 
+#include "CCadesOID.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "CCadesOID.h"
 
 struct CCadesAttribute_t;
 typedef struct CCadesAttribute_t CCadesAttribute;

@@ -42,9 +42,13 @@ namespace dotnetcades
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
         }
-        public BasicConstraints(IntPtr m) 
+        public BasicConstraints(IntPtr m)
         {
             _CCadesBasicConstraints = m;
+        }
+        public static explicit operator IntPtr(BasicConstraints value)
+        {
+            return value._CCadesBasicConstraints;
         }
         public void Dispose()
         {
@@ -54,11 +58,12 @@ namespace dotnetcades
                 Console.WriteLine($"BasicConstraints.Dispose() failed: {hresult}");
             }
         }
+
         public bool IsPresent
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesBasicConstraints_get_is_present(_CCadesBasicConstraints, ref result);
                 if (hresult != 0)
                 {
@@ -66,10 +71,11 @@ namespace dotnetcades
                 }
                 return result != 0;
             }
+
             set
             {
-                int ivalue = Convert.ToInt32(value);
-                int hresult = CCadesBasicConstraints_put_is_present(_CCadesBasicConstraints, ivalue);
+                int piValue = Convert.ToInt32(value);
+                int hresult = CCadesBasicConstraints_put_is_present(_CCadesBasicConstraints, piValue);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -80,7 +86,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesBasicConstraints_get_is_critical(_CCadesBasicConstraints, ref result);
                 if (hresult != 0)
                 {
@@ -88,10 +94,11 @@ namespace dotnetcades
                 }
                 return result != 0;
             }
+
             set
             {
-                int ivalue = Convert.ToInt32(value);
-                int hresult = CCadesBasicConstraints_put_is_critical(_CCadesBasicConstraints, ivalue);
+                int piValue = Convert.ToInt32(value);
+                int hresult = CCadesBasicConstraints_put_is_critical(_CCadesBasicConstraints, piValue);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -102,7 +109,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesBasicConstraints_get_is_certificate_authority(_CCadesBasicConstraints, ref result);
                 if (hresult != 0)
                 {
@@ -115,7 +122,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesBasicConstraints_get_is_path_len_constraint_present(_CCadesBasicConstraints, ref result);
                 if (hresult != 0)
                 {
@@ -128,7 +135,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesBasicConstraints_get_path_len_constraint(_CCadesBasicConstraints, ref result);
                 if (hresult != 0)
                 {
@@ -139,6 +146,3 @@ namespace dotnetcades
         }
     }
 }
-
-
-

@@ -4,6 +4,7 @@
 #include "CPPCadesCPKeyUsage.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesKeyUsage_t
 {
     boost::shared_ptr<CPPCadesCPKeyUsageObject> obj;
@@ -52,7 +53,7 @@ HRESULT CCadesKeyUsage_get_is_present(CCadesKeyUsage *m, int *result)
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsPresent(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -69,7 +70,7 @@ HRESULT CCadesKeyUsage_get_is_critical(CCadesKeyUsage *m, int *result)
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsCritical(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -86,7 +87,7 @@ HRESULT CCadesKeyUsage_get_is_crl_sign_enabled(CCadesKeyUsage *m, int *result)
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsCRLSignEnabled(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -103,7 +104,7 @@ HRESULT CCadesKeyUsage_get_is_data_encipherment_enabled(CCadesKeyUsage *m, int *
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsDataEnciphermentEnabled(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -120,7 +121,7 @@ HRESULT CCadesKeyUsage_get_is_decipher_only_enabled(CCadesKeyUsage *m, int *resu
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsDecipherOnlyEnabled(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -137,7 +138,7 @@ HRESULT CCadesKeyUsage_get_is_digital_signature_enabled(CCadesKeyUsage *m, int *
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsDigitalSignatureEnabled(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -154,7 +155,7 @@ HRESULT CCadesKeyUsage_get_is_encipher_only_enabled(CCadesKeyUsage *m, int *resu
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsEncipherOnlyEnabled(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -171,7 +172,7 @@ HRESULT CCadesKeyUsage_get_is_key_agreement_enabled(CCadesKeyUsage *m, int *resu
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsKeyAgreementEnabled(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -188,7 +189,7 @@ HRESULT CCadesKeyUsage_get_is_key_cert_sign_enabled(CCadesKeyUsage *m, int *resu
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsKeyCertSignEnabled(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -205,13 +206,13 @@ HRESULT CCadesKeyUsage_get_is_key_encipherment_enabled(CCadesKeyUsage *m, int *r
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsKeyEnciphermentEnabled(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
 }
 
-HRESULT CCadesKeyUsage_get_is_non_repudation_enabled(CCadesKeyUsage *m, int *result)
+HRESULT CCadesKeyUsage_get_is_non_repudiation_enabled(CCadesKeyUsage *m, int *result)
 {
     try
     {
@@ -222,7 +223,7 @@ HRESULT CCadesKeyUsage_get_is_non_repudation_enabled(CCadesKeyUsage *m, int *res
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsNonRepudiationEnabled(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;

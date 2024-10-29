@@ -37,6 +37,10 @@ namespace dotnetcades
         {
             _CCadesEKU = m;
         }
+        public static explicit operator IntPtr(EKU value)
+        {
+            return value._CCadesEKU;
+        }
         public void Dispose()
         {
             int hresult = CCadesEKU_destroy(_CCadesEKU);
@@ -45,11 +49,12 @@ namespace dotnetcades
                 Console.WriteLine($"EKU.Dispose() failed: {hresult}");
             }
         }
+
         public int Name
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesEKU_get_name(_CCadesEKU, ref result);
                 if (hresult != 0)
                 {
@@ -57,6 +62,7 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
                 int hresult = CCadesEKU_put_name(_CCadesEKU, value);
@@ -70,7 +76,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesEKU_get_oid(_CCadesEKU, ref ptr);
@@ -85,6 +91,7 @@ namespace dotnetcades
                     NC.FreeString(ptr);
                 }
             }
+
             set
             {
                 int hresult = CCadesEKU_put_oid(_CCadesEKU, value);
@@ -96,4 +103,3 @@ namespace dotnetcades
         }
     }
 }
-

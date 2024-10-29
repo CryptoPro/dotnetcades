@@ -46,25 +46,25 @@ namespace dotnetcades
                 Console.WriteLine($"ExtendedKeyUsage.Dispose() failed: {hresult}");
             }
         }
+
         public EKUs EKUs
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesExtendedKeyUsage_get_ekus(_CCadesExtendedKeyUsage, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                EKUs result = new EKUs(ptr);
-                return result;
+                return new EKUs(ptr);
             }
         }
         public bool IsPresent
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesExtendedKeyUsage_get_is_present(_CCadesExtendedKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -77,7 +77,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesExtendedKeyUsage_get_is_critical(_CCadesExtendedKeyUsage, ref result);
                 if (hresult != 0)
                 {
@@ -88,7 +88,3 @@ namespace dotnetcades
         }
     }
 }
-
-
-
-

@@ -40,6 +40,10 @@ namespace dotnetcades
         {
             _CCadesAttributes = m;
         }
+        public static explicit operator IntPtr(Attributes value)
+        {
+            return value._CCadesAttributes;
+        }
         public void Dispose()
         {
             int hresult = CCadesAttributes_destroy(_CCadesAttributes);
@@ -48,22 +52,22 @@ namespace dotnetcades
                 Console.WriteLine($"Attributes.Dispose() failed: {hresult}");
             }
         }
+
         public Attribute Item(int value)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             int hresult = CCadesAttributes_get_item(_CCadesAttributes, value, ref ptr);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
-            Attribute result = new Attribute(ptr);
-            return result;
+            return new Attribute(ptr);
         }
         public int Count
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesAttributes_get_count(_CCadesAttributes, ref result);
                 if (hresult != 0)
                 {
@@ -98,6 +102,3 @@ namespace dotnetcades
         }
     }
 }
-
-
-

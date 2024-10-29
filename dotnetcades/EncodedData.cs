@@ -31,6 +31,10 @@ namespace dotnetcades
         {
             _CCadesEncodedData = m;
         }
+        public static explicit operator IntPtr(EncodedData value)
+        {
+            return value._CCadesEncodedData;
+        }
         public void Dispose()
         {
             int hresult = CCadesEncodedData_destroy(_CCadesEncodedData);
@@ -39,13 +43,14 @@ namespace dotnetcades
                 Console.WriteLine($"EncodedData.Dispose() failed: {hresult}");
             }
         }
+
         public string Format(bool bMultiline = false)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
-                int iMultiline = Convert.ToInt32(bMultiline);
-                int hresult = CCadesEncodedData_format(_CCadesEncodedData, iMultiline, ref ptr);
+                int value = Convert.ToInt32(bMultiline);
+                int hresult = CCadesEncodedData_format(_CCadesEncodedData, value, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -59,7 +64,7 @@ namespace dotnetcades
         }
         public string Value(int encoding)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesEncodedData_get_value(_CCadesEncodedData, encoding, ref ptr);

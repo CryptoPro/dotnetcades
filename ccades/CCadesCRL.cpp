@@ -4,6 +4,7 @@
 #include "CPPCadesCPCRL.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesCRL_t
 {
     boost::shared_ptr<CPPCadesCPCRLObject> obj;
@@ -41,7 +42,7 @@ HRESULT CCadesCRL_destroy(CCadesCRL *m)
     return S_OK;
 }
 
-HRESULT CCadesCRL_import(CCadesCRL *m, char* value)
+HRESULT CCadesCRL_import(CCadesCRL *m, char *value)
 {
     try
     {
@@ -51,8 +52,8 @@ HRESULT CCadesCRL_import(CCadesCRL *m, char* value)
         }
 
         CAtlStringA sValue(value);
-        CryptoPro::CBlob blob((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
-        ATL_HR_ERRORCHECK_RETURN(m->obj->Import(blob));
+        CryptoPro::CBlob arg_value((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
+        ATL_HR_ERRORCHECK_RETURN(m->obj->Import(arg_value));
     }
     CCADESCATCH
     return S_OK;

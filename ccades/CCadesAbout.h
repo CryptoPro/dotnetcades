@@ -1,11 +1,11 @@
 #ifndef CCADESABOUT_H
 #define CCADESABOUT_H
 
+#include "CCadesVersion.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "CCadesVersion.h"
 
 struct CCadesAbout_t;
 typedef struct CCadesAbout_t CCadesAbout;

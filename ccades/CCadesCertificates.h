@@ -2,6 +2,7 @@
 #define CCADESCERTIFICATES_H
 
 #include "CCadesCertificate.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

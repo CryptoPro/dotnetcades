@@ -4,6 +4,7 @@
 #include "CPPCadesSymmetricAlgorithm.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesSymmetricAlgorithm_t
 {
     boost::shared_ptr<CPPCadesSymmetricAlgorithmObject> obj;
@@ -45,7 +46,7 @@ HRESULT CCadesSymmetricAlgorithm_destroy(CCadesSymmetricAlgorithm *m)
     return S_OK;
 }
 
-HRESULT CCadesSymmetricAlgorithm_put_divers_data(CCadesSymmetricAlgorithm *m, char* value)
+HRESULT CCadesSymmetricAlgorithm_put_divers_data(CCadesSymmetricAlgorithm *m, char *value)
 {
     try
     {
@@ -54,8 +55,8 @@ HRESULT CCadesSymmetricAlgorithm_put_divers_data(CCadesSymmetricAlgorithm *m, ch
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_DiversData(sValue.GetBuffer(), sValue.GetLength()));
+        CAtlStringA pbData(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_DiversData(pbData.GetBuffer(), pbData.GetLength()));
     }
     CCADESCATCH
     return S_OK;
@@ -84,7 +85,7 @@ HRESULT CCadesSymmetricAlgorithm_get_divers_data(CCadesSymmetricAlgorithm *m, ch
     return S_OK;
 }
 
-HRESULT CCadesSymmetricAlgorithm_put_iv(CCadesSymmetricAlgorithm *m, char* value)
+HRESULT CCadesSymmetricAlgorithm_put_iv(CCadesSymmetricAlgorithm *m, char *value)
 {
     try
     {
@@ -93,8 +94,8 @@ HRESULT CCadesSymmetricAlgorithm_put_iv(CCadesSymmetricAlgorithm *m, char* value
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_IV(sValue.GetBuffer(), sValue.GetLength()));
+        CAtlStringA pbData(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_IV(pbData.GetBuffer(), pbData.GetLength()));
     }
     CCADESCATCH
     return S_OK;
@@ -123,7 +124,7 @@ HRESULT CCadesSymmetricAlgorithm_get_iv(CCadesSymmetricAlgorithm *m, char **resu
     return S_OK;
 }
 
-HRESULT CCadesSymmetricAlgorithm_import_key(CCadesSymmetricAlgorithm *m, char* value, CCadesCertificate *cert, char *password)
+HRESULT CCadesSymmetricAlgorithm_import_key(CCadesSymmetricAlgorithm *m, char *value, CCadesCertificate *cert, char *password)
 {
     try
     {
@@ -132,15 +133,9 @@ HRESULT CCadesSymmetricAlgorithm_import_key(CCadesSymmetricAlgorithm *m, char* v
             return E_INVALIDARG;
         }
 
-        CryptoPro::CBlob blob;
-        CAtlStringA sValue(value);
-        CAtlStringA sPassword(password);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->ImportKey(
-            sValue.GetBuffer(), 
-            sValue.GetLength(), 
-            cert->obj, 
-            sPassword.GetBuffer(), 
-            sPassword.GetLength()));
+        CAtlStringA pbData(value);
+        CAtlStringA pbPin(password);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->ImportKey(pbData.GetBuffer(), pbData.GetLength(), cert->obj, pbPin.GetBuffer(), pbPin.GetLength()));
     }
     CCADESCATCH
     return S_OK;
@@ -195,7 +190,6 @@ HRESULT CCadesSymmetricAlgorithm_diversify_key(CCadesSymmetricAlgorithm *m, CCad
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesSymmetricAlgorithmObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->DiversifyKey(pObj));
-
         CCadesSymmetricAlgorithm *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesSymmetricAlgorithm_create(&ret));
         ret->obj = pObj;
@@ -214,16 +208,16 @@ HRESULT CCadesSymmetricAlgorithm_encrypt(CCadesSymmetricAlgorithm *m, char *valu
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
-        CryptoPro::CStringProxy blob;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->Encrypt((const char *)sValue.GetBuffer(), sValue.GetLength(), isFinal, blob));
-        int len = strlen(blob.c_str());
+        CAtlStringA pbData(value);
+        CryptoPro::CStringProxy sValue;
+        ATL_HR_ERRORCHECK_RETURN(m->obj->Encrypt(pbData.GetBuffer(), pbData.GetLength(), isFinal, sValue));
+        int len = strlen(sValue.c_str());
         char *buf = (char *)calloc(len + 1, sizeof(char));
         if (!buf)
         {
             return E_UNEXPECTED;
         }
-        memcpy(buf, blob.c_str(), len);
+        memcpy(buf, sValue.c_str(), len);
         *result = buf;
     }
     CCADESCATCH
@@ -239,9 +233,9 @@ HRESULT CCadesSymmetricAlgorithm_decrypt(CCadesSymmetricAlgorithm *m, char *valu
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
+        CAtlStringA pbData(value);
         CryptoPro::CBlob blob;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->Decrypt((const char *)sValue.GetBuffer(), sValue.GetLength(), isFinal, blob));
+        ATL_HR_ERRORCHECK_RETURN(m->obj->Decrypt(pbData.GetBuffer(), pbData.GetLength(), isFinal, blob));
         char *buf = (char *)calloc(blob.cbData() + 1, sizeof(char));
         if (!buf)
         {
@@ -254,7 +248,7 @@ HRESULT CCadesSymmetricAlgorithm_decrypt(CCadesSymmetricAlgorithm *m, char *valu
     return S_OK;
 }
 
-HRESULT CCadesSymmetricAlgorithm_set_legacy_plugin_symmetric_export(CCadesSymmetricAlgorithm *m, int value)
+HRESULT CCadesSymmetricAlgorithm_put_legacy_plugin_symmetric_export(CCadesSymmetricAlgorithm *m, int value)
 {
     try
     {

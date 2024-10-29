@@ -4,6 +4,7 @@
 #include "CPPCadesCPHashedData.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesHashedData_t
 {
     boost::shared_ptr<CPPCadesCPHashedDataObject> obj;
@@ -67,7 +68,7 @@ HRESULT CCadesHashedData_get_algorithm(CCadesHashedData *m, int *result)
 
         CAPICOM_HASH_ALGORITHM val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Algorithm(&val));
-        *result = (int)val;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;
@@ -122,7 +123,7 @@ HRESULT CCadesHashedData_get_data_encoding(CCadesHashedData *m, int *result)
 
         CADESCOM_CONTENT_ENCODING_TYPE val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_DataEncoding(&val));
-        *result = (int)val;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;
@@ -151,7 +152,7 @@ HRESULT CCadesHashedData_get_key(CCadesHashedData *m, char **result)
     return S_OK;
 }
 
-HRESULT CCadesHashedData_put_key(CCadesHashedData *m, char* value)
+HRESULT CCadesHashedData_put_key(CCadesHashedData *m, char *value)
 {
     try
     {
@@ -160,14 +161,14 @@ HRESULT CCadesHashedData_put_key(CCadesHashedData *m, char* value)
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_Key(sValue));
+        CAtlStringA pVal(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_Key(pVal));
     }
     CCADESCATCH
     return S_OK;
 }
 
-HRESULT CCadesHashedData_hash(CCadesHashedData *m, char* value)
+HRESULT CCadesHashedData_hash(CCadesHashedData *m, char *value)
 {
     try
     {
@@ -176,14 +177,14 @@ HRESULT CCadesHashedData_hash(CCadesHashedData *m, char* value)
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_Hash(sValue.GetBuffer(), sValue.GetLength()));
+        CAtlStringA pbData(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_Hash(pbData.GetBuffer(), pbData.GetLength()));
     }
     CCADESCATCH
     return S_OK;
 }
 
-HRESULT CCadesHashedData_set_hash_value(CCadesHashedData *m, char* value)
+HRESULT CCadesHashedData_set_hash_value(CCadesHashedData *m, char *value)
 {
     try
     {
@@ -192,8 +193,8 @@ HRESULT CCadesHashedData_set_hash_value(CCadesHashedData *m, char* value)
             return E_INVALIDARG;
         }
 
-        CAtlString sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_HashValue(sValue));
+        CAtlString pVal(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_HashValue(pVal));
     }
     CCADESCATCH
     return S_OK;

@@ -9,10 +9,6 @@ struct CCadesCertificate_t
 {
     boost::shared_ptr<CPPCadesCPCertificateObject> obj;
 };
-struct CCadesBasicConstraints_t
-{
-    boost::shared_ptr<CPPCadesCPBasicConstraintsObject> obj;
-};
 struct CCadesCertificateStatus_t
 {
     boost::shared_ptr<CPPCadesCPCertificateStatusObject> obj;
@@ -25,13 +21,17 @@ struct CCadesKeyUsage_t
 {
     boost::shared_ptr<CPPCadesCPKeyUsageObject> obj;
 };
-struct CCadesPrivateKey_t
+struct CCadesBasicConstraints_t
 {
-    boost::shared_ptr<CPPCadesCPPrivateKeyObject> obj;
+    boost::shared_ptr<CPPCadesCPBasicConstraintsObject> obj;
 };
 struct CCadesPublicKey_t
 {
     boost::shared_ptr<CPPCadesCPPublicKeyObject> obj;
+};
+struct CCadesPrivateKey_t
+{
+    boost::shared_ptr<CPPCadesCPPrivateKeyObject> obj;
 };
 
 HRESULT CCadesCertificate_create(CCadesCertificate **result)
@@ -98,9 +98,9 @@ HRESULT CCadesCertificate_has_private_key(CCadesCertificate *m, int *result)
             return E_INVALIDARG;
         }
 
-        BOOL r;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->HasPrivateKey(&r));
-        *result = (int)r;
+        BOOL res;
+        ATL_HR_ERRORCHECK_RETURN(m->obj->HasPrivateKey(&res));
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -110,9 +110,13 @@ HRESULT CCadesCertificate_is_valid(CCadesCertificate *m, CCadesCertificateStatus
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificateStatusObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->IsValid(pObj));
-
         CCadesCertificateStatus *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificateStatus_create(&ret));
         ret->obj = pObj;
@@ -126,9 +130,13 @@ HRESULT CCadesCertificate_extended_key_usage(CCadesCertificate *m, CCadesExtende
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPExtendedKeyUsageObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->ExtendedKeyUsage(pObj));
-
         CCadesExtendedKeyUsage *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesExtendedKeyUsage_create(&ret));
         ret->obj = pObj;
@@ -142,9 +150,13 @@ HRESULT CCadesCertificate_key_usage(CCadesCertificate *m, CCadesKeyUsage **resul
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPKeyUsageObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->KeyUsage(pObj));
-
         CCadesKeyUsage *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesKeyUsage_create(&ret));
         ret->obj = pObj;
@@ -177,7 +189,7 @@ HRESULT CCadesCertificate_export(CCadesCertificate *m, int value, char **result)
     return S_OK;
 }
 
-HRESULT CCadesCertificate_import(CCadesCertificate *m, char* value)
+HRESULT CCadesCertificate_import(CCadesCertificate *m, char *value)
 {
     try
     {
@@ -187,12 +199,11 @@ HRESULT CCadesCertificate_import(CCadesCertificate *m, char* value)
         }
 
         CAtlStringA sValue(value);
-        CryptoPro::CBlob blob((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
-        ATL_HR_ERRORCHECK_RETURN(m->obj->Import(blob));
+        CryptoPro::CBlob arg_value((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
+        ATL_HR_ERRORCHECK_RETURN(m->obj->Import(arg_value));
     }
     CCADESCATCH
     return S_OK;
-
 }
 
 HRESULT CCadesCertificate_get_thumbprint(CCadesCertificate *m, char **result)
@@ -298,7 +309,7 @@ HRESULT CCadesCertificate_get_version(CCadesCertificate *m, int *result)
 
         DWORD r;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Version(&r));
-        *result = (int)r;
+        *result = r;
     }
     CCADESCATCH
     return S_OK;
@@ -356,9 +367,13 @@ HRESULT CCadesCertificate_basic_constraints(CCadesCertificate *m, CCadesBasicCon
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPBasicConstraintsObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->BasicConstraints(pObj));
-
         CCadesBasicConstraints *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesBasicConstraints_create(&ret));
         ret->obj = pObj;
@@ -372,9 +387,13 @@ HRESULT CCadesCertificate_public_key(CCadesCertificate *m, CCadesPublicKey **res
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPPublicKeyObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->PublicKey(pObj));
-
         CCadesPublicKey *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesPublicKey_create(&ret));
         ret->obj = pObj;
@@ -388,9 +407,13 @@ HRESULT CCadesCertificate_private_key(CCadesCertificate *m, CCadesPrivateKey **r
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPPrivateKeyObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->PrivateKey(pObj));
-
         CCadesPrivateKey *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesPrivateKey_create(&ret));
         ret->obj = pObj;
@@ -404,7 +427,12 @@ HRESULT CCadesCertificate_find_private_key(CCadesCertificate *m)
 {
     try
     {
-        ATL_HR_ERRORCHECK_RETURN(m->obj->FindPrivateKey(CAtlString()));
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
+        ATL_HR_ERRORCHECK_RETURN(m->obj->FindPrivateKey(CAtlStringA()));
     }
     CCADESCATCH
     return S_OK;

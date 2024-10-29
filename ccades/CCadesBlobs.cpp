@@ -1,19 +1,13 @@
 #include "stdafx.h"
 #include <stdlib.h>
 #include "CCadesBlobs.h"
-#include "CCadesOID.h"
 #include "CPPCadesCollections.h"
-#include "CPPCadesCPAttribute.h"
 
 using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesBlobs_t
 {
     boost::shared_ptr<CPPCadesCPBlobsObject> obj;
-};
-struct CCadesAttribute_t
-{
-    boost::shared_ptr<CPPCadesCPAttributeObject> obj;
 };
 
 HRESULT CCadesBlobs_create(CCadesBlobs **result)
@@ -57,9 +51,9 @@ HRESULT CCadesBlobs_get_count(CCadesBlobs *m, int *result)
             return E_INVALIDARG;
         }
 
-        unsigned int r;
+        DWORD r;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Count(&r));
-        *result = (int)r;
+        *result = r;
     }
     CCADESCATCH
     return S_OK;

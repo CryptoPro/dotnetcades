@@ -61,11 +61,12 @@ namespace dotnetcades
                 Console.WriteLine($"SignedXML.Dispose() failed: {hresult}");
             }
         }
+
         public string Content
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesSignedXML_get_content(_CCadesSignedXML, ref ptr);
@@ -80,6 +81,7 @@ namespace dotnetcades
                     NC.FreeString(ptr);
                 }
             }
+
             set
             {
                 int hresult = CCadesSignedXML_put_content(_CCadesSignedXML, value);
@@ -126,21 +128,20 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesSignedXML_get_signers(_CCadesSignedXML, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Signers result = new Signers(ptr);
-                return result;
+                return new Signers(ptr);
             }
         }
         public string Sign(Signer signer, string xpath = "")
         {
-            IntPtr ptr = IntPtr.Zero;
-                try
-                {
+            IntPtr ptr = default;
+            try
+            {
                 int hresult = CCadesSignedXML_sign(_CCadesSignedXML, (IntPtr)signer, xpath, ref ptr);
                 if (hresult != 0)
                 {
@@ -148,8 +149,8 @@ namespace dotnetcades
                 }
                 return Marshal.PtrToStringAuto(ptr);
             }
-                finally
-                {
+            finally
+            {
                 NC.FreeString(ptr);
             }
         }
@@ -163,8 +164,3 @@ namespace dotnetcades
         }
     }
 }
-
-
-
-
-

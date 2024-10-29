@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include <stdlib.h>
 #include "CCadesAttributes.h"
-#include "CCadesOID.h"
 #include "CPPCadesCPAttributes.h"
-#include "CPPCadesCPAttribute.h"
 
 using namespace CryptoPro::PKI::CAdES;
 
@@ -15,7 +13,6 @@ struct CCadesAttribute_t
 {
     boost::shared_ptr<CPPCadesCPAttributeObject> obj;
 };
-
 
 HRESULT CCadesAttributes_create(CCadesAttributes **result)
 {
@@ -58,9 +55,9 @@ HRESULT CCadesAttributes_get_count(CCadesAttributes *m, int *result)
             return E_INVALIDARG;
         }
 
-        long int r;
+        long r;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Count(&r));
-        *result = (int)r;
+        *result = r;
     }
     CCADESCATCH
     return S_OK;
@@ -85,9 +82,13 @@ HRESULT CCadesAttributes_get_item(CCadesAttributes *m, int value, CCadesAttribut
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAttributeObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Item(value, pObj));
-
         CCadesAttribute *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesAttribute_create(&ret));
         ret->obj = pObj;
@@ -101,6 +102,11 @@ HRESULT CCadesAttributes_add(CCadesAttributes *m, CCadesAttribute *obj)
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         ATL_HR_ERRORCHECK_RETURN(m->obj->Add(obj->obj));
     }
     CCADESCATCH
@@ -111,6 +117,11 @@ HRESULT CCadesAttributes_clear(CCadesAttributes *m)
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         ATL_HR_ERRORCHECK_RETURN(m->obj->Clear());
     }
     CCADESCATCH

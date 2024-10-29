@@ -67,6 +67,7 @@ namespace dotnetcades
                 Console.WriteLine($"PrivateKey.Dispose() failed: {hresult}");
             }
         }
+
         public void ChangePin()
         {
             int hresult = CCadesPrivateKey_change_pin(_CCadesPrivateKey);
@@ -79,8 +80,8 @@ namespace dotnetcades
         {
             set
             {
-                int iValue = Convert.ToInt32(value);
-                int hresult = CCadesPrivateKey_set_cache_pin(_CCadesPrivateKey, iValue);
+                int piValue = Convert.ToInt32(value);
+                int hresult = CCadesPrivateKey_set_cache_pin(_CCadesPrivateKey, piValue);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -91,7 +92,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesPrivateKey_get_container_name(_CCadesPrivateKey, ref ptr);
@@ -111,7 +112,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesPrivateKey_get_unique_container_name(_CCadesPrivateKey, ref ptr);
@@ -131,7 +132,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesPrivateKey_get_provider_name(_CCadesPrivateKey, ref ptr);
@@ -151,7 +152,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesPrivateKey_get_provider_type(_CCadesPrivateKey, ref result);
                 if (hresult != 0)
                 {
@@ -164,7 +165,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesPrivateKey_get_key_spec(_CCadesPrivateKey, ref result);
                 if (hresult != 0)
                 {
@@ -177,7 +178,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesPrivateKey_get_carrier_flags(_CCadesPrivateKey, ref result);
                 if (hresult != 0)
                 {
@@ -190,7 +191,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesPrivateKey_get_is_default_pin(_CCadesPrivateKey, ref result);
                 if (hresult != 0)
                 {

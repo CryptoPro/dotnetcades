@@ -6,7 +6,6 @@ namespace dotnetcades
     public class Signer : IDisposable
     {
         IntPtr _CCadesSigner = IntPtr.Zero;
-        bool _bDispose = false;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesSigner_create(ref IntPtr self);
@@ -69,16 +68,10 @@ namespace dotnetcades
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
-            _bDispose = true;
         }
         public Signer(IntPtr m)
         {
             _CCadesSigner = m;
-            _bDispose = true;
-        }
-        ~Signer()
-        {
-            Dispose();
         }
         public static explicit operator IntPtr(Signer value)
         {
@@ -86,57 +79,52 @@ namespace dotnetcades
         }
         public void Dispose()
         {
-            if (_bDispose)
+            int hresult = CCadesSigner_destroy(_CCadesSigner);
+            if (hresult != 0)
             {
-                int hresult = CCadesSigner_destroy(_CCadesSigner);
-                if (hresult != 0)
-                {
-                    Console.WriteLine($"Signer.Dispose() failed: {hresult}");
-                }
-                _bDispose = false;
+                Console.WriteLine($"Signer.Dispose() failed: {hresult}");
             }
         }
+
         public Attributes UnauthenticatedAttributes
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesSigner_get_unauthenticated_attributes(_CCadesSigner, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Attributes result = new Attributes(ptr);
-                return result;
+                return new Attributes(ptr);
             }
         }
         public Attributes AuthenticatedAttributes2
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesSigner_get_authenticated_attributes2(_CCadesSigner, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Attributes result = new Attributes(ptr);
-                return result;
+                return new Attributes(ptr);
             }
         }
         public Certificate Certificate
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesSigner_get_certificate(_CCadesSigner, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Certificate result = new Certificate(ptr);
-                return result;
+                return new Certificate(ptr);
             }
+
             set
             {
                 int hresult = CCadesSigner_put_certificate(_CCadesSigner, (IntPtr)value);
@@ -150,7 +138,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesSigner_get_options(_CCadesSigner, ref result);
                 if (hresult != 0)
                 {
@@ -158,6 +146,7 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
                 int hresult = CCadesSigner_put_options(_CCadesSigner, value);
@@ -171,35 +160,33 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesSigner_get_crls(_CCadesSigner, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Blobs result = new Blobs(ptr);
-                return result;
+                return new Blobs(ptr);
             }
         }
         public Blobs OCSPResponses
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesSigner_get_ocsp_responses(_CCadesSigner, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Blobs result = new Blobs(ptr);
-                return result;
+                return new Blobs(ptr);
             }
         }
         public string TSAAddress
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesSigner_get_tsa_address(_CCadesSigner, ref ptr);
@@ -214,6 +201,7 @@ namespace dotnetcades
                     NC.FreeString(ptr);
                 }
             }
+
             set
             {
                 int hresult = CCadesSigner_put_tsa_address(_CCadesSigner, value);
@@ -227,7 +215,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesSigner_get_signature_timestamp_time(_CCadesSigner, ref ptr);
@@ -247,7 +235,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesSigner_get_signing_time(_CCadesSigner, ref ptr);
@@ -278,21 +266,20 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesSigner_get_signature_status(_CCadesSigner, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                SignatureStatus result = new SignatureStatus(ptr);
-                return result;
+                return new SignatureStatus(ptr);
             }
         }
         public bool CheckCertificate
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesSigner_get_check_certificate(_CCadesSigner, ref result);
                 if (hresult != 0)
                 {
@@ -300,10 +287,11 @@ namespace dotnetcades
                 }
                 return result != 0;
             }
+
             set
             {
-                int iValue = Convert.ToInt32(value);
-                int hresult = CCadesSigner_put_check_certificate(_CCadesSigner, iValue);
+                int piValue = Convert.ToInt32(value);
+                int hresult = CCadesSigner_put_check_certificate(_CCadesSigner, piValue);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));

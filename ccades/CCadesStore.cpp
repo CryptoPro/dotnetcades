@@ -5,9 +5,9 @@
 
 using namespace CryptoPro::PKI::CAdES;
 
-struct CCadesCertificates_t
+struct CCadesStore_t
 {
-    boost::shared_ptr<CPPCadesCPCertificatesObject> obj;
+    boost::shared_ptr<CPPCadesCPStoreObject> obj;
 };
 struct CCadesCertificate_t
 {
@@ -17,9 +17,9 @@ struct CCadesCRL_t
 {
     boost::shared_ptr<CPPCadesCPCRLObject> obj;
 };
-struct CCadesStore_t
+struct CCadesCertificates_t
 {
-    boost::shared_ptr<CPPCadesCPStoreObject> obj;
+    boost::shared_ptr<CPPCadesCPCertificatesObject> obj;
 };
 
 HRESULT CCadesStore_create(CCadesStore **result)
@@ -54,7 +54,7 @@ HRESULT CCadesStore_destroy(CCadesStore *m)
     return S_OK;
 }
 
-HRESULT CCadesStore_open(CCadesStore *m, int value, char* name, int mode)
+HRESULT CCadesStore_open(CCadesStore *m, int value, char *name, int mode)
 {
     try
     {
@@ -63,9 +63,9 @@ HRESULT CCadesStore_open(CCadesStore *m, int value, char* name, int mode)
             return E_INVALIDARG;
         }
 
-        CAtlStringW wName(name);
-        CAPICOM_STORE_OPEN_MODE mod = (CAPICOM_STORE_OPEN_MODE)mode;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->Open((CADESCOM_STORE_LOCATION)value, wName, mod));
+        CAtlStringW arg_name(name);
+        CAPICOM_STORE_OPEN_MODE arg_mode = (CAPICOM_STORE_OPEN_MODE)mode;
+        ATL_HR_ERRORCHECK_RETURN(m->obj->Open((CADESCOM_STORE_LOCATION)value, arg_name, arg_mode));
     }
     CCADESCATCH
     return S_OK;
@@ -95,8 +95,7 @@ HRESULT CCadesStore_add(CCadesStore *m, CCadesCertificate *obj)
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificateObject> pObj(obj->obj);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->Add(pObj));
+        ATL_HR_ERRORCHECK_RETURN(m->obj->Add(obj->obj));
     }
     CCADESCATCH
     return S_OK;
@@ -128,7 +127,6 @@ HRESULT CCadesStore_get_certificates(CCadesStore *m, CCadesCertificates **result
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificatesObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Certificates(pObj));
-
         CCadesCertificates *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificates_create(&ret));
         ret->obj = pObj;
@@ -149,7 +147,7 @@ HRESULT CCadesStore_get_location(CCadesStore *m, int *result)
 
         CADESCOM_STORE_LOCATION val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Location(&val));
-        *result = (int)val;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;

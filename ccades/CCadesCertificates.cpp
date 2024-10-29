@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include <stdlib.h>
 #include "CCadesCertificates.h"
-#include "CCadesCertificates.h"
 #include "CPPCadesCPCertificates.h"
-#include "CPPCadesCPCertificate.h"
 
 using namespace CryptoPro::PKI::CAdES;
 
@@ -57,7 +55,7 @@ HRESULT CCadesCertificates_get_count(CCadesCertificates *m, int *result)
             return E_INVALIDARG;
         }
 
-        unsigned int r;
+        DWORD r;
         ATL_HR_ERRORCHECK_RETURN(m->obj->Count(&r));
         *result = r;
     }
@@ -69,9 +67,13 @@ HRESULT CCadesCertificates_get_item(CCadesCertificates *m, int value, CCadesCert
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificateObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->Item(value, pObj));
-
         CCadesCertificate *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificate_create(&ret));
         ret->obj = pObj;
@@ -81,17 +83,21 @@ HRESULT CCadesCertificates_get_item(CCadesCertificates *m, int value, CCadesCert
     return S_OK;
 }
 
-HRESULT CCadesCertificates_find_s(CCadesCertificates *m, int FindType, char *Criteria, int ValidOnly, CCadesCertificates **result)
+HRESULT CCadesCertificates_find_s(CCadesCertificates *m, int FindType, char *Criteria, int bValidOnly, CCadesCertificates **result)
 {
     try
     {
-        FindCriteria findCriteria;
-        findCriteria.str = CAtlString(Criteria);
-        findCriteria.dwCriteriaFlag = FIND_CRITERIA_STRING;
-        CAPICOM_CERTIFICATE_FIND_TYPE type = (CAPICOM_CERTIFICATE_FIND_TYPE)FindType;
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
 
+        CAPICOM_CERTIFICATE_FIND_TYPE findType = (CAPICOM_CERTIFICATE_FIND_TYPE)FindType;
+        FindCriteria varCriteria;
+        varCriteria.str = CAtlStringA(Criteria);
+        varCriteria.dwCriteriaFlag = FIND_CRITERIA_STRING;
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificatesObject> pObj;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->Find(type, &findCriteria, ValidOnly, pObj));
+        ATL_HR_ERRORCHECK_RETURN(m->obj->Find(findType, &varCriteria, bValidOnly, pObj));
         CCadesCertificates *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificates_create(&ret));
         ret->obj = pObj;

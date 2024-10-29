@@ -39,6 +39,14 @@ namespace dotnetcades
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
         }
+        public License(IntPtr m)
+        {
+            _CCadesLicense = m;
+        }
+        public static explicit operator IntPtr(License value)
+        {
+            return value._CCadesLicense;
+        }
         public void Dispose()
         {
             int hresult = CCadesLicense_destroy(_CCadesLicense);
@@ -47,9 +55,10 @@ namespace dotnetcades
                 Console.WriteLine($"License.Dispose() failed: {hresult}");
             }
         }
+
         public string SerialNumber(int product = NC.CADESCOM_PRODUCT_CSP)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesLicense_get_serial_number(_CCadesLicense, product, ref ptr);
@@ -66,7 +75,7 @@ namespace dotnetcades
         }
         public string FirstInstallDate(int product = NC.CADESCOM_PRODUCT_CSP)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesLicense_get_first_install_date(_CCadesLicense, product, ref ptr);
@@ -83,7 +92,7 @@ namespace dotnetcades
         }
         public string CompanyName(int product = NC.CADESCOM_PRODUCT_CSP)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesLicense_get_company_name(_CCadesLicense, product, ref ptr);
@@ -100,7 +109,7 @@ namespace dotnetcades
         }
         public string Type(int product = NC.CADESCOM_PRODUCT_CSP)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesLicense_get_type(_CCadesLicense, product, ref ptr);
@@ -117,7 +126,7 @@ namespace dotnetcades
         }
         public string ValidTo(int product = NC.CADESCOM_PRODUCT_CSP)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesLicense_get_valid_to(_CCadesLicense, product, ref ptr);

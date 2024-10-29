@@ -4,17 +4,18 @@
 #include "CPPCadesCPSignedData.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesSignedData_t
 {
     boost::shared_ptr<CPPCadesSignedDataObject> obj;
 };
-struct CCadesCertificates_t
-{
-    boost::shared_ptr<CPPCadesCPCertificatesObject> obj;
-};
 struct CCadesSigners_t
 {
     boost::shared_ptr<CPPCadesCPSignersObject> obj;
+};
+struct CCadesCertificates_t
+{
+    boost::shared_ptr<CPPCadesCPCertificatesObject> obj;
 };
 struct CCadesSigner_t
 {
@@ -68,7 +69,6 @@ HRESULT CCadesSignedData_get_certificates(CCadesSignedData *m, CCadesCertificate
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificatesObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Certificates(pObj));
-
         CCadesCertificates *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificates_create(&ret));
         ret->obj = pObj;
@@ -78,7 +78,7 @@ HRESULT CCadesSignedData_get_certificates(CCadesSignedData *m, CCadesCertificate
     return S_OK;
 }
 
-HRESULT CCadesSignedData_put_content(CCadesSignedData *m, char* value)
+HRESULT CCadesSignedData_put_content(CCadesSignedData *m, char *value)
 {
     try
     {
@@ -87,8 +87,8 @@ HRESULT CCadesSignedData_put_content(CCadesSignedData *m, char* value)
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_Content(sValue.GetBuffer(), sValue.GetLength()));
+        CAtlStringA pbData(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_Content(pbData.GetBuffer(), pbData.GetLength()));
     }
     CCADESCATCH
     return S_OK;
@@ -143,7 +143,7 @@ HRESULT CCadesSignedData_get_content_encoding(CCadesSignedData *m, int *result)
 
         CADESCOM_CONTENT_ENCODING_TYPE val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_ContentEncoding(&val));
-        *result = (int)val;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;
@@ -160,7 +160,6 @@ HRESULT CCadesSignedData_get_signers(CCadesSignedData *m, CCadesSigners **result
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPSignersObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Signers(pObj));
-
         CCadesSigners *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesSigners_create(&ret));
         ret->obj = pObj;
@@ -196,7 +195,7 @@ HRESULT CCadesSignedData_get_display_data(CCadesSignedData *m, int *result)
 
         DWORD r;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_DisplayData(&r));
-        *result = (int)r;
+        *result = r;
     }
     CCADESCATCH
     return S_OK;
@@ -248,7 +247,7 @@ HRESULT CCadesSignedData_sign(CCadesSignedData *m, CCadesSigner *signer, int isD
     return S_OK;
 }
 
-HRESULT CCadesSignedData_verify(CCadesSignedData *m, char* value, int isDetached, int Flag)
+HRESULT CCadesSignedData_verify(CCadesSignedData *m, char *value, int isDetached, int Flag)
 {
     try
     {
@@ -258,8 +257,8 @@ HRESULT CCadesSignedData_verify(CCadesSignedData *m, char* value, int isDetached
         }
 
         CAtlStringA sValue(value);
-        CryptoPro::CBlob blob((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
-        ATL_HR_ERRORCHECK_RETURN(m->obj->Verify(blob, isDetached, (CAPICOM_SIGNED_DATA_VERIFY_FLAG)Flag));
+        CryptoPro::CBlob SignedMessage((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
+        ATL_HR_ERRORCHECK_RETURN(m->obj->Verify(SignedMessage, isDetached, (CAPICOM_SIGNED_DATA_VERIFY_FLAG)Flag));
     }
     CCADESCATCH
     return S_OK;
@@ -288,7 +287,7 @@ HRESULT CCadesSignedData_cosign_cades(CCadesSignedData *m, CCadesSigner *signer,
     return S_OK;
 }
 
-HRESULT CCadesSignedData_enhance_cades(CCadesSignedData *m, int CadesType, char* TSAAddress, int EncodingType, char **result)
+HRESULT CCadesSignedData_enhance_cades(CCadesSignedData *m, int CadesType, char *TSAAddress, int EncodingType, char **result)
 {
     try
     {
@@ -297,9 +296,9 @@ HRESULT CCadesSignedData_enhance_cades(CCadesSignedData *m, int CadesType, char*
             return E_INVALIDARG;
         }
 
+        CAtlStringA arg_TSAAddress(TSAAddress);
         CryptoPro::CBlob blob;
-        CAtlStringA sValue(TSAAddress);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->EnhanceCades((CADESCOM_CADES_TYPE)CadesType, sValue, (CAPICOM_ENCODING_TYPE)EncodingType, &blob));
+        ATL_HR_ERRORCHECK_RETURN(m->obj->EnhanceCades((CADESCOM_CADES_TYPE)CadesType, arg_TSAAddress, (CAPICOM_ENCODING_TYPE)EncodingType, &blob));
         char *buf = (char *)calloc(blob.cbData() + 1, sizeof(char));
         if (!buf)
         {
@@ -345,8 +344,8 @@ HRESULT CCadesSignedData_verify_cades(CCadesSignedData *m, char *value, int Cade
         }
 
         CAtlStringA sValue(value);
-        CryptoPro::CBlob blob((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
-        ATL_HR_ERRORCHECK_RETURN(m->obj->VerifyCades(blob, (CADESCOM_CADES_TYPE)CadesType, isDetached));
+        CryptoPro::CBlob SignedMessage((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
+        ATL_HR_ERRORCHECK_RETURN(m->obj->VerifyCades(SignedMessage, (CADESCOM_CADES_TYPE)CadesType, isDetached));
     }
     CCADESCATCH
     return S_OK;
@@ -375,7 +374,7 @@ HRESULT CCadesSignedData_cosign_hash(CCadesSignedData *m, CCadesHashedData *hash
     return S_OK;
 }
 
-HRESULT CCadesSignedData_sign_hash( CCadesSignedData *m, CCadesHashedData *hashed, CCadesSigner *signer, int CadesType, int EncodingType, char **result)
+HRESULT CCadesSignedData_sign_hash(CCadesSignedData *m, CCadesHashedData *hashed, CCadesSigner *signer, int CadesType, int EncodingType, char **result)
 {
     try
     {
@@ -398,7 +397,7 @@ HRESULT CCadesSignedData_sign_hash( CCadesSignedData *m, CCadesHashedData *hashe
     return S_OK;
 }
 
-HRESULT CCadesSignedData_verify_hash(CCadesSignedData *m, CCadesHashedData *hashed, char* value, int CadesType)
+HRESULT CCadesSignedData_verify_hash(CCadesSignedData *m, CCadesHashedData *hashed, char *value, int CadesType)
 {
     try
     {
@@ -408,8 +407,8 @@ HRESULT CCadesSignedData_verify_hash(CCadesSignedData *m, CCadesHashedData *hash
         }
 
         CAtlStringA sValue(value);
-        CryptoPro::CBlob blob((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
-        ATL_HR_ERRORCHECK_RETURN(m->obj->VerifyHash(hashed->obj, blob, (CADESCOM_CADES_TYPE)CadesType));
+        CryptoPro::CBlob SignedMessage((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
+        ATL_HR_ERRORCHECK_RETURN(m->obj->VerifyHash(hashed->obj, SignedMessage, (CADESCOM_CADES_TYPE)CadesType));
     }
     CCADESCATCH
     return S_OK;

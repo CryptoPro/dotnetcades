@@ -43,11 +43,12 @@ namespace dotnetcades
                 Console.WriteLine($"Signers.Dispose() failed: {hresult}");
             }
         }
+
         public int Count
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesSigners_get_count(_CCadesSigners, ref result);
                 if (hresult != 0)
                 {
@@ -58,19 +59,13 @@ namespace dotnetcades
         }
         public Signer Item(int value)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             int hresult = CCadesSigners_get_item(_CCadesSigners, value, ref ptr);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
-            Signer result = new Signer(ptr);
-            return result;
+            return new Signer(ptr);
         }
     }
 }
-
-
-
-
-

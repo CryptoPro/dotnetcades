@@ -4,6 +4,7 @@
 #include "CPPCadesSignatureStatus.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesSignatureStatus_t
 {
     boost::shared_ptr<CPPCadesSignatureStatusObject> obj;

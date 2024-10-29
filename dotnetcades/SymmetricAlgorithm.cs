@@ -44,7 +44,7 @@ namespace dotnetcades
         public static extern int CCadesSymmetricAlgorithm_decrypt(IntPtr self, string value, int isFinal, ref IntPtr result);
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
-        public static extern int CCadesSymmetricAlgorithm_set_legacy_plugin_symmetric_export(IntPtr self, int value);
+        public static extern int CCadesSymmetricAlgorithm_put_legacy_plugin_symmetric_export(IntPtr self, int value);
 
         public SymmetricAlgorithm() 
         {
@@ -70,11 +70,12 @@ namespace dotnetcades
                 Console.WriteLine($"SymmetricAlgorithm.Dispose() failed: {hresult}");
             }
         }
+
         public string DiversData
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesSymmetricAlgorithm_get_divers_data(_CCadesSymmetricAlgorithm, ref ptr);
@@ -89,6 +90,7 @@ namespace dotnetcades
                     NC.FreeString(ptr);
                 }
             }
+
             set
             {
                 int hresult = CCadesSymmetricAlgorithm_put_divers_data(_CCadesSymmetricAlgorithm, value);
@@ -102,7 +104,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesSymmetricAlgorithm_get_iv(_CCadesSymmetricAlgorithm, ref ptr);
@@ -117,6 +119,7 @@ namespace dotnetcades
                     NC.FreeString(ptr);
                 }
             }
+
             set
             {
                 int hresult = CCadesSymmetricAlgorithm_put_iv(_CCadesSymmetricAlgorithm, value);
@@ -136,20 +139,19 @@ namespace dotnetcades
         }
         public SymmetricAlgorithm DiversifyKey()
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             int hresult = CCadesSymmetricAlgorithm_diversify_key(_CCadesSymmetricAlgorithm, ref ptr);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
-            SymmetricAlgorithm result = new SymmetricAlgorithm(ptr);
-            return result;
+            return new SymmetricAlgorithm(ptr);
         }
         public string ExportKey(Certificate certificate)
         {
-            IntPtr ptr = IntPtr.Zero;
-                try
-                {
+            IntPtr ptr = default;
+            try
+            {
                 int hresult = CCadesSymmetricAlgorithm_export_key(_CCadesSymmetricAlgorithm, (IntPtr)certificate, ref ptr);
                 if (hresult != 0)
                 {
@@ -157,8 +159,8 @@ namespace dotnetcades
                 }
                 return Marshal.PtrToStringAuto(ptr);
             }
-                finally
-                {
+            finally
+            {
                 NC.FreeString(ptr);
             }
         }
@@ -172,11 +174,11 @@ namespace dotnetcades
         }
         public string Encrypt(string value, bool isFinal)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
-                int iIsFinal = Convert.ToInt32(isFinal);
-                int hresult = CCadesSymmetricAlgorithm_encrypt(_CCadesSymmetricAlgorithm, value, iIsFinal, ref ptr);
+                int arg_isFinal = Convert.ToInt32(isFinal);
+                int hresult = CCadesSymmetricAlgorithm_encrypt(_CCadesSymmetricAlgorithm, value, arg_isFinal, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -190,11 +192,11 @@ namespace dotnetcades
         }
         public string Decrypt(string value, bool isFinal)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
-                int iIsFinal = Convert.ToInt32(isFinal);
-                int hresult = CCadesSymmetricAlgorithm_decrypt(_CCadesSymmetricAlgorithm, value, iIsFinal, ref ptr);
+                int arg_isFinal = Convert.ToInt32(isFinal);
+                int hresult = CCadesSymmetricAlgorithm_decrypt(_CCadesSymmetricAlgorithm, value, arg_isFinal, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -210,8 +212,8 @@ namespace dotnetcades
         {
             set
             {
-                int iValue = Convert.ToInt32(value);
-                int hresult = CCadesSymmetricAlgorithm_set_legacy_plugin_symmetric_export(_CCadesSymmetricAlgorithm, iValue);
+                int piValue = Convert.ToInt32(value);
+                int hresult = CCadesSymmetricAlgorithm_put_legacy_plugin_symmetric_export(_CCadesSymmetricAlgorithm, piValue);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));

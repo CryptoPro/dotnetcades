@@ -4,6 +4,7 @@
 #include "CPPCadesCPEKU.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesEKU_t
 {
     boost::shared_ptr<CPPCadesCPEKUObject> obj;
@@ -41,7 +42,7 @@ HRESULT CCadesEKU_destroy(CCadesEKU *m)
     return S_OK;
 }
 
-HRESULT CCadesEKU_get_name(CCadesEKU *m, int* result)
+HRESULT CCadesEKU_get_name(CCadesEKU *m, int *result)
 {
     try
     {
@@ -52,7 +53,7 @@ HRESULT CCadesEKU_get_name(CCadesEKU *m, int* result)
 
         CAPICOM_EKU val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Name(&val));
-        *result = (DWORD)val;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;
@@ -62,6 +63,11 @@ HRESULT CCadesEKU_put_name(CCadesEKU *m, int value)
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         ATL_HR_ERRORCHECK_RETURN(m->obj->put_Name((CAPICOM_EKU)value));
     }
     CCADESCATCH
@@ -76,6 +82,7 @@ HRESULT CCadesEKU_get_oid(CCadesEKU *m, char **result)
         {
             return E_INVALIDARG;
         }
+        
         CAtlString sValue;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_OID(sValue));
         char *buf = (char *)calloc(sValue.GetLength() + 1, sizeof(char));
@@ -90,7 +97,7 @@ HRESULT CCadesEKU_get_oid(CCadesEKU *m, char **result)
     return S_OK;
 }
 
-HRESULT CCadesEKU_put_oid(CCadesEKU *m, char* value)
+HRESULT CCadesEKU_put_oid(CCadesEKU *m, char *value)
 {
     try
     {
@@ -98,8 +105,9 @@ HRESULT CCadesEKU_put_oid(CCadesEKU *m, char* value)
         {
             return E_INVALIDARG;
         }
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_OID(sValue));
+
+        CAtlStringA pVal(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_OID(pVal));
     }
     CCADESCATCH
     return S_OK;

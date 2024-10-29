@@ -91,39 +91,38 @@ namespace dotnetcades
                 Console.WriteLine($"SignedData.Dispose() failed: {hresult}");
             }
         }
+
         public Certificates Certificates
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesSignedData_get_certificates(_CCadesSignedData, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Certificates result = new Certificates(ptr);
-                return result;
+                return new Certificates(ptr);
             }
         }
         public Signers Signers
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesSignedData_get_signers(_CCadesSignedData, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Signers result = new Signers(ptr);
-                return result;
+                return new Signers(ptr);
             }
         }
         public string Content
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesSignedData_get_content(_CCadesSignedData, ref ptr);
@@ -138,6 +137,7 @@ namespace dotnetcades
                     NC.FreeString(ptr);
                 }
             }
+
             set
             {
                 int hresult = CCadesSignedData_put_content(_CCadesSignedData, value);
@@ -151,7 +151,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesSignedData_get_content_encoding(_CCadesSignedData, ref result);
                 if (hresult != 0)
                 {
@@ -159,6 +159,7 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
                 int hresult = CCadesSignedData_put_content_encoding(_CCadesSignedData, value);
@@ -172,7 +173,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesSignedData_get_display_data(_CCadesSignedData, ref result);
                 if (hresult != 0)
                 {
@@ -180,6 +181,7 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
                 int hresult = CCadesSignedData_put_display_data(_CCadesSignedData, value);
@@ -191,7 +193,7 @@ namespace dotnetcades
         }
         public string CoSign(Signer signer, int EncodingType = NC.CADESCOM_ENCODE_BASE64)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesSignedData_cosign(_CCadesSignedData, (IntPtr)signer, EncodingType, ref ptr);
@@ -208,11 +210,11 @@ namespace dotnetcades
         }
         public string Sign(Signer signer, bool isDetached = false, int EncodingType = NC.CADESCOM_ENCODE_BASE64)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
-                var iIsDetached = Convert.ToInt32(isDetached);
-                int hresult = CCadesSignedData_sign(_CCadesSignedData, (IntPtr)signer, iIsDetached, EncodingType, ref ptr);
+                int arg_isDetached = Convert.ToInt32(isDetached);
+                int hresult = CCadesSignedData_sign(_CCadesSignedData, (IntPtr)signer, arg_isDetached, EncodingType, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -226,8 +228,8 @@ namespace dotnetcades
         }
         public void Verify(string value, bool isDetached = false, int flags = 0)
         {
-            int iIsDetached = Convert.ToInt32(isDetached);
-            int hresult = CCadesSignedData_verify(_CCadesSignedData, value, iIsDetached, flags);
+            int arg_isDetached = Convert.ToInt32(isDetached);
+            int hresult = CCadesSignedData_verify(_CCadesSignedData, value, arg_isDetached, flags);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
@@ -235,7 +237,7 @@ namespace dotnetcades
         }
         public string CoSignCades(Signer signer, int CadesType = NC.CADESCOM_CADES_X_LONG_TYPE_1, int EncodingType = NC.CADESCOM_ENCODE_BASE64)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesSignedData_cosign_cades(_CCadesSignedData, (IntPtr)signer, CadesType, EncodingType, ref ptr);
@@ -252,7 +254,7 @@ namespace dotnetcades
         }
         public string EnhanceCades(int CadesType = NC.CADESCOM_CADES_X_LONG_TYPE_1, string TSAAddress = "", int EncodingType = NC.CADESCOM_ENCODE_BASE64)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesSignedData_enhance_cades(_CCadesSignedData, CadesType, TSAAddress, EncodingType, ref ptr);
@@ -269,11 +271,11 @@ namespace dotnetcades
         }
         public string SignCades(Signer signer, int CadesType = NC.CADESCOM_CADES_X_LONG_TYPE_1, bool isDetached = false, int EncodingType = NC.CADESCOM_ENCODE_BASE64)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
-                int iIsDetached = Convert.ToInt32(isDetached);
-                int hresult = CCadesSignedData_sign_cades(_CCadesSignedData, (IntPtr)signer, CadesType, iIsDetached, EncodingType, ref ptr);
+                int arg_isDetached = Convert.ToInt32(isDetached);
+                int hresult = CCadesSignedData_sign_cades(_CCadesSignedData, (IntPtr)signer, CadesType, arg_isDetached, EncodingType, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -287,8 +289,8 @@ namespace dotnetcades
         }
         public void VerifyCades(string value, int CadesType = NC.CADESCOM_CADES_X_LONG_TYPE_1, bool isDetached = false)
         {
-            int iIsDetached = Convert.ToInt32(isDetached);
-            int hresult = CCadesSignedData_verify_cades(_CCadesSignedData, value, CadesType, iIsDetached);
+            int arg_isDetached = Convert.ToInt32(isDetached);
+            int hresult = CCadesSignedData_verify_cades(_CCadesSignedData, value, CadesType, arg_isDetached);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
@@ -296,7 +298,7 @@ namespace dotnetcades
         }
         public string CoSignHash(HashedData hashedData, Signer signer, int CadesType = NC.CADESCOM_CADES_X_LONG_TYPE_1, int EncodingType = NC.CADESCOM_ENCODE_BASE64)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesSignedData_cosign_hash(_CCadesSignedData, (IntPtr)hashedData, (IntPtr)signer, CadesType, EncodingType, ref ptr);
@@ -313,7 +315,7 @@ namespace dotnetcades
         }
         public string SignHash(HashedData hashedData, Signer signer, int CadesType = NC.CADESCOM_CADES_X_LONG_TYPE_1, int EncodingType = NC.CADESCOM_ENCODE_BASE64)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesSignedData_sign_hash(_CCadesSignedData, (IntPtr)hashedData, (IntPtr)signer, CadesType, EncodingType, ref ptr);

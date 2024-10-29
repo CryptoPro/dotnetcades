@@ -11,7 +11,7 @@ typedef struct CCadesCRL_t CCadesCRL;
 HRESULT CCadesCRL_create(CCadesCRL **m);
 HRESULT CCadesCRL_destroy(CCadesCRL *m);
 
-HRESULT CCadesCRL_import(CCadesCRL *m, char* value);
+HRESULT CCadesCRL_import(CCadesCRL *m, char *value);
 HRESULT CCadesCRL_export(CCadesCRL *m, int value, char **result);
 HRESULT CCadesCRL_get_issuer_name(CCadesCRL *m, char **result);
 HRESULT CCadesCRL_get_this_update(CCadesCRL *m, char **result);

@@ -4,13 +4,10 @@
 #include "CPPCadesSignedXML.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesSignedXML_t
 {
     boost::shared_ptr<CPPCadesSignedXMLObject> obj;
-};
-struct CCadesCertificates_t
-{
-    boost::shared_ptr<CPPCadesCPCertificatesObject> obj;
 };
 struct CCadesSigners_t
 {
@@ -64,7 +61,6 @@ HRESULT CCadesSignedXML_get_signers(CCadesSignedXML *m, CCadesSigners **result)
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPSignersObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Signers(pObj));
-
         CCadesSigners *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesSigners_create(&ret));
         ret->obj = pObj;
@@ -74,7 +70,7 @@ HRESULT CCadesSignedXML_get_signers(CCadesSignedXML *m, CCadesSigners **result)
     return S_OK;
 }
 
-HRESULT CCadesSignedXML_put_content(CCadesSignedXML *m, char* value)
+HRESULT CCadesSignedXML_put_content(CCadesSignedXML *m, char *value)
 {
     try
     {
@@ -128,7 +124,7 @@ HRESULT CCadesSignedXML_put_signature_type(CCadesSignedXML *m, int value)
     return S_OK;
 }
 
-HRESULT CCadesSignedXML_put_signature_method(CCadesSignedXML *m, char* value)
+HRESULT CCadesSignedXML_put_signature_method(CCadesSignedXML *m, char *value)
 {
     try
     {
@@ -137,14 +133,14 @@ HRESULT CCadesSignedXML_put_signature_method(CCadesSignedXML *m, char* value)
             return E_INVALIDARG;
         }
 
-    CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_SignatureMethod(sValue));
+        CAtlStringA pVal(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_SignatureMethod(pVal));
     }
     CCADESCATCH
     return S_OK;
 }
 
-HRESULT CCadesSignedXML_put_digest_method(CCadesSignedXML *m, char* value)
+HRESULT CCadesSignedXML_put_digest_method(CCadesSignedXML *m, char *value)
 {
     try
     {
@@ -153,8 +149,8 @@ HRESULT CCadesSignedXML_put_digest_method(CCadesSignedXML *m, char* value)
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_DigestMethod(sValue));
+        CAtlStringA pVal(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_DigestMethod(pVal));
     }
     CCADESCATCH
     return S_OK;
@@ -169,22 +165,22 @@ HRESULT CCadesSignedXML_sign(CCadesSignedXML *m, CCadesSigner *signer, char *xpa
             return E_INVALIDARG;
         }
 
-        CStringBlob blob;
-        CStringBlob sValue(xpath);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->Sign(signer->obj, sValue, blob));
-        char *buf = (char *)calloc(blob.GetLength() + 1, sizeof(char));
+        CStringBlob pXPath(xpath);
+        CStringBlob sValue;
+        ATL_HR_ERRORCHECK_RETURN(m->obj->Sign(signer->obj, pXPath, sValue));
+        char *buf = (char *)calloc(sValue.GetLength() + 1, sizeof(char));
         if (!buf)
         {
             return E_UNEXPECTED;
         }
-        memcpy(buf, blob.GetBuffer(), blob.GetLength());
+        memcpy(buf, sValue.GetBuffer(), sValue.GetLength());
         *result = buf;
     }
     CCADESCATCH
     return S_OK;
 }
 
-HRESULT CCadesSignedXML_verify(CCadesSignedXML *m, char* value, char* xpath)
+HRESULT CCadesSignedXML_verify(CCadesSignedXML *m, char *value, char *xpath)
 {
     try
     {
@@ -193,9 +189,9 @@ HRESULT CCadesSignedXML_verify(CCadesSignedXML *m, char* value, char* xpath)
             return E_INVALIDARG;
         }
 
-        CStringBlob sValue(value);
-        CStringBlob sPath(xpath);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->Verify(sValue, sPath));
+        CStringBlob SignedMessage(value);
+        CStringBlob pXPath(xpath);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->Verify(SignedMessage, pXPath));
     }
     CCADESCATCH
     return S_OK;

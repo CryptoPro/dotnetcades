@@ -37,6 +37,10 @@ namespace dotnetcades
         {
             _CCadesAlgorithm = m;
         }
+        public static explicit operator IntPtr(Algorithm value)
+        {
+            return value._CCadesAlgorithm;
+        }
         public void Dispose()
         {
             int hresult = CCadesAlgorithm_destroy(_CCadesAlgorithm);
@@ -49,7 +53,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesAlgorithm_get_name(_CCadesAlgorithm, ref result);
                 if (hresult != 0)
                 {
@@ -57,6 +61,7 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
                 int hresult = CCadesAlgorithm_put_name(_CCadesAlgorithm, value);
@@ -70,7 +75,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesAlgorithm_get_key_length(_CCadesAlgorithm, ref result);
                 if (hresult != 0)
                 {
@@ -78,6 +83,7 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
                 int hresult = CCadesAlgorithm_put_key_length(_CCadesAlgorithm, value);
@@ -89,4 +95,3 @@ namespace dotnetcades
         }
     }
 }
-

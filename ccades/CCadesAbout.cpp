@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include <stdlib.h>
 #include "CCadesAbout.h"
-#include "CCadesVersion.h"
 #include "CPPCadesAbout.h"
-#include "CPPVersion.h"
 
 using namespace CryptoPro::PKI::CAdES;
 
@@ -11,7 +9,6 @@ struct CCadesAbout_t
 {
     boost::shared_ptr<CPPCadesAboutObject> obj;
 };
-
 struct CCadesVersion_t
 {
     boost::shared_ptr<CPPVersionObject> obj;
@@ -127,10 +124,14 @@ HRESULT CCadesAbout_get_csp_version(CCadesAbout *m, char *szProvName, int dwProv
 {
     try
     {
-        CAtlString provName = CAtlString(szProvName);
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
+        CAtlStringA provName(szProvName);
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPVersionObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_CSPVersion(provName, dwProvType, pObj));
-
         CCadesVersion *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesVersion_create(&ret));
         ret->obj = pObj;
@@ -144,9 +145,13 @@ HRESULT CCadesAbout_get_plugin_version(CCadesAbout *m, CCadesVersion **result)
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPVersionObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_PluginVersion(pObj));
-
         CCadesVersion *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesVersion_create(&ret));
         ret->obj = pObj;
@@ -203,8 +208,8 @@ HRESULT CCadesAbout_reader_filter(CCadesAbout *m, int EnabledTypes, int EnabledO
             return E_INVALIDARG;
         }
 
-        CAtlStringA sFilterRegexp(FilterRegexp);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->ReaderFilter(EnabledTypes, EnabledOperations, sFilterRegexp));
+        CAtlStringA sRegexFilter(FilterRegexp);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->ReaderFilter(EnabledTypes, EnabledOperations, sRegexFilter));
     }
     CCADESCATCH
     return S_OK;

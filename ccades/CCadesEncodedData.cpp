@@ -4,6 +4,7 @@
 #include "CPPCadesCPEncodedData.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesEncodedData_t
 {
     boost::shared_ptr<CPPCadesCPEncodedDataObject> obj;
@@ -49,9 +50,10 @@ HRESULT CCadesEncodedData_format(CCadesEncodedData *m, int value, char **result)
         {
             return E_INVALIDARG;
         }
+
         CAtlStringW sValueW;
         ATL_HR_ERRORCHECK_RETURN(m->obj->Format(value, sValueW));
-        CAtlStringA sValue = CAtlString(sValueW);
+        CAtlStringA sValue(sValueW);
         char *buf = (char *)calloc(sValue.GetLength() + 1, sizeof(char));
         if (!buf)
         {
@@ -72,6 +74,7 @@ HRESULT CCadesEncodedData_get_value(CCadesEncodedData *m, int value, char **resu
         {
             return E_INVALIDARG;
         }
+
         CryptoPro::CBlob blob;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Value((CAPICOM_ENCODING_TYPE)value, blob));
         char *buf = (char *)calloc(blob.cbData() + 1, sizeof(char));

@@ -40,11 +40,12 @@ namespace dotnetcades
                 Console.WriteLine($"SignatureStatus.Dispose() failed: {hresult}");
             }
         }
+
         public bool IsValid
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesSignatureStatus_is_valid(_CCadesSignatureStatus, ref result);
                 if (hresult != 0)
                 {
@@ -55,7 +56,3 @@ namespace dotnetcades
         }
     }
 }
-
-
-
-

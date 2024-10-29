@@ -4,6 +4,7 @@
 #include "CPPCadesCPPrivateKey.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesPrivateKey_t
 {
     boost::shared_ptr<CPPCadesCPPrivateKeyObject> obj;
@@ -136,7 +137,7 @@ HRESULT CCadesPrivateKey_get_provider_type(CCadesPrivateKey *m, int *result)
 
         CAPICOM_PROV_TYPE val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_ProviderType(&val));
-        *result = (DWORD)val;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;
@@ -153,7 +154,7 @@ HRESULT CCadesPrivateKey_get_key_spec(CCadesPrivateKey *m, int *result)
 
         CAPICOM_KEY_SPEC val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_KeySpec(&val));
-        *result = (int)val;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;
@@ -170,7 +171,7 @@ HRESULT CCadesPrivateKey_get_is_default_pin(CCadesPrivateKey *m, int *result)
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsDefaultPin(res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -185,14 +186,13 @@ HRESULT CCadesPrivateKey_set_cache_pin(CCadesPrivateKey *m, int value)
             return E_INVALIDARG;
         }
 
-        DWORD r = value ? TRUE : FALSE;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->set_CachePin(r));
+        ATL_HR_ERRORCHECK_RETURN(m->obj->set_CachePin(value));
     }
     CCADESCATCH
     return S_OK;
 }
 
-HRESULT CCadesPrivateKey_set_key_pin(CCadesPrivateKey *m, char* value)
+HRESULT CCadesPrivateKey_set_key_pin(CCadesPrivateKey *m, char *value)
 {
     try
     {
@@ -201,8 +201,8 @@ HRESULT CCadesPrivateKey_set_key_pin(CCadesPrivateKey *m, char* value)
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->set_KeyPin(sValue));
+        CAtlStringA newVal(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->set_KeyPin(newVal));
     }
     CCADESCATCH
     return S_OK;
@@ -217,9 +217,9 @@ HRESULT CCadesPrivateKey_get_carrier_flags(CCadesPrivateKey *m, int *result)
             return E_INVALIDARG;
         }
 
-        unsigned int val;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->get_CarrierFlags(val));
-        *result = val;
+        DWORD r;
+        ATL_HR_ERRORCHECK_RETURN(m->obj->get_CarrierFlags(r));
+        *result = r;
     }
     CCADESCATCH
     return S_OK;

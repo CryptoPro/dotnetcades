@@ -1,18 +1,17 @@
 #include "stdafx.h"
 #include <stdlib.h>
 #include "CCadesSigners.h"
-#include "CCadesOID.h"
 #include "CPPCadesCollections.h"
-#include "CPPCadesCPSigner.h"
 
 using namespace CryptoPro::PKI::CAdES;
-struct CCadesSigner_t
-{
-    boost::shared_ptr<CPPCadesCPSignerObject> obj;
-};
+
 struct CCadesSigners_t
 {
     boost::shared_ptr<CPPCadesCPSignersObject> obj;
+};
+struct CCadesSigner_t
+{
+    boost::shared_ptr<CPPCadesCPSignerObject> obj;
 };
 
 HRESULT CCadesSigners_create(CCadesSigners **result)
@@ -56,9 +55,9 @@ HRESULT CCadesSigners_get_count(CCadesSigners *m, int *result)
             return E_INVALIDARG;
         }
 
-        unsigned int res;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->get_Count(&res));
-        *result = (int)res;
+        DWORD r;
+        ATL_HR_ERRORCHECK_RETURN(m->obj->get_Count(&r));
+        *result = r;
     }
     CCADESCATCH
     return S_OK;
@@ -75,7 +74,6 @@ HRESULT CCadesSigners_get_item(CCadesSigners *m, int value, CCadesSigner **resul
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPSignerObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Item(value, pObj));
-
         CCadesSigner *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesSigner_create(&ret));
         ret->obj = pObj;

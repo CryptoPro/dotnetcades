@@ -6,18 +6,25 @@ namespace dotnetcades
     public class Version : IDisposable
     {
         IntPtr _CCadesVersion = IntPtr.Zero;
-        [DllImport("../ccades/libccades")]
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesVersion_create(ref IntPtr self);
-        [DllImport("../ccades/libccades")]
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesVersion_destroy(IntPtr self);
-        [DllImport("../ccades/libccades")]
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesVersion_to_string(IntPtr self, ref IntPtr result);
-        [DllImport("../ccades/libccades")]
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesVersion_get_major_version(IntPtr self, ref int result);
-        [DllImport("../ccades/libccades")]
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesVersion_get_minor_version(IntPtr self, ref int result);
-        [DllImport("../ccades/libccades")]
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesVersion_get_build_version(IntPtr self, ref int result);
+
         public Version() 
         {
             int hresult = CCadesVersion_create(ref _CCadesVersion);
@@ -30,6 +37,10 @@ namespace dotnetcades
         {
             _CCadesVersion = m;
         }
+        public static explicit operator IntPtr(Version value)
+        {
+            return value._CCadesVersion;
+        }
         public void Dispose()
         {
             int hresult = CCadesVersion_destroy(_CCadesVersion);
@@ -38,9 +49,10 @@ namespace dotnetcades
                 Console.WriteLine($"Version.Dispose() failed: {hresult}");
             }
         }
+
         public string toString()
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesVersion_to_string(_CCadesVersion, ref ptr);
@@ -59,7 +71,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesVersion_get_major_version(_CCadesVersion, ref result);
                 if (hresult != 0)
                 {
@@ -72,7 +84,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesVersion_get_minor_version(_CCadesVersion, ref result);
                 if (hresult != 0)
                 {
@@ -85,7 +97,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesVersion_get_build_version(_CCadesVersion, ref result);
                 if (hresult != 0)
                 {

@@ -40,6 +40,10 @@ namespace dotnetcades
         {
             _CCadesRecipients = m;
         }
+        public static explicit operator IntPtr(Recipients value)
+        {
+            return value._CCadesRecipients;
+        }
         public void Dispose()
         {
             int hresult = CCadesRecipients_destroy(_CCadesRecipients);
@@ -48,22 +52,22 @@ namespace dotnetcades
                 Console.WriteLine($"Recipients.Dispose() failed: {hresult}");
             }
         }
+
         public Certificate Item(int index)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             int hresult = CCadesRecipients_get_item(_CCadesRecipients, index, ref ptr);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
-            Certificate result = new Certificate(ptr);
-            return result;
+            return new Certificate(ptr);
         }
         public int Count
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesRecipients_get_count(_CCadesRecipients, ref result);
                 if (hresult != 0)
                 {

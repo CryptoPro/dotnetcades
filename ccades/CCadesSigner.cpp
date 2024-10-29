@@ -2,20 +2,20 @@
 #include <stdlib.h>
 #include "CCadesSigner.h"
 #include "CPPCadesCPSigner.h"
-#include "CPPCadesSignatureStatus.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesSigner_t
 {
     boost::shared_ptr<CPPCadesCPSignerObject> obj;
 };
-struct CCadesAttributes_t
-{
-    boost::shared_ptr<CPPCadesCPAttributesObject> obj;
-};
 struct CCadesCertificate_t
 {
     boost::shared_ptr<CPPCadesCPCertificateObject> obj;
+};
+struct CCadesAttributes_t
+{
+    boost::shared_ptr<CPPCadesCPAttributesObject> obj;
 };
 struct CCadesBlobs_t
 {
@@ -69,26 +69,10 @@ HRESULT CCadesSigner_get_authenticated_attributes2(CCadesSigner *m, CCadesAttrib
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAttributesObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_AuthenticatedAttributes(pObj));
-
         CCadesAttributes *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesAttributes_create(&ret));
         ret->obj = pObj;
         *result = ret;
-    }
-    CCADESCATCH
-    return S_OK;
-}
-
-HRESULT CCadesSigner_put_authenticated_attributes2(CCadesSigner *m, CCadesAttributes *obj)
-{
-    try
-    {
-        if (!m)
-        {
-            return E_INVALIDARG;
-        }
-
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_AuthenticatedAttributes(obj->obj));
     }
     CCADESCATCH
     return S_OK;
@@ -105,26 +89,10 @@ HRESULT CCadesSigner_get_unauthenticated_attributes(CCadesSigner *m, CCadesAttri
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAttributesObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_UnauthenticatedAttributes(pObj));
-
         CCadesAttributes *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesAttributes_create(&ret));
         ret->obj = pObj;
         *result = ret;
-    }
-    CCADESCATCH
-    return S_OK;
-}
-
-HRESULT CCadesSigner_put_unauthenticated_attributes(CCadesSigner *m, CCadesAttributes *obj)
-{
-    try
-    {
-        if (!m)
-        {
-            return E_INVALIDARG;
-        }
-
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_UnauthenticatedAttributes(obj->obj));
     }
     CCADESCATCH
     return S_OK;
@@ -141,7 +109,6 @@ HRESULT CCadesSigner_get_certificate(CCadesSigner *m, CCadesCertificate **result
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificateObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Certificate(pObj));
-
         CCadesCertificate *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificate_create(&ret));
         ret->obj = pObj;
@@ -192,7 +159,7 @@ HRESULT CCadesSigner_get_options(CCadesSigner *m, int *result)
 
         CAPICOM_CERTIFICATE_INCLUDE_OPTION val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Options(&val));
-        *result = (int)val;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;
@@ -209,7 +176,6 @@ HRESULT CCadesSigner_get_crls(CCadesSigner *m, CCadesBlobs **result)
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPBlobsObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_CRLs(pObj));
-
         CCadesBlobs *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesBlobs_create(&ret));
         ret->obj = pObj;
@@ -230,7 +196,6 @@ HRESULT CCadesSigner_get_ocsp_responses(CCadesSigner *m, CCadesBlobs **result)
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPBlobsObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_OCSPResponses(pObj));
-
         CCadesBlobs *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesBlobs_create(&ret));
         ret->obj = pObj;
@@ -240,7 +205,7 @@ HRESULT CCadesSigner_get_ocsp_responses(CCadesSigner *m, CCadesBlobs **result)
     return S_OK;
 }
 
-HRESULT CCadesSigner_put_tsa_address(CCadesSigner *m, char* value)
+HRESULT CCadesSigner_put_tsa_address(CCadesSigner *m, char *value)
 {
     try
     {
@@ -249,8 +214,8 @@ HRESULT CCadesSigner_put_tsa_address(CCadesSigner *m, char* value)
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_TSAAddress(sValue));
+        CAtlStringA newVal(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_TSAAddress(newVal));
     }
     CCADESCATCH
     return S_OK;
@@ -327,7 +292,7 @@ HRESULT CCadesSigner_get_signing_time(CCadesSigner *m, char **result)
     return S_OK;
 }
 
-HRESULT CCadesSigner_put_key_pin(CCadesSigner *m, char* value)
+HRESULT CCadesSigner_put_key_pin(CCadesSigner *m, char *value)
 {
     try
     {
@@ -336,8 +301,8 @@ HRESULT CCadesSigner_put_key_pin(CCadesSigner *m, char* value)
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_KeyPin(sValue));
+        CAtlStringA newVal(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_KeyPin(newVal));
     }
     CCADESCATCH
     return S_OK;
@@ -354,7 +319,6 @@ HRESULT CCadesSigner_get_signature_status(CCadesSigner *m, CCadesSignatureStatus
 
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesSignatureStatusObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_SignatureStatus(pObj));
-
         CCadesSignatureStatus *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesSignatureStatus_create(&ret));
         ret->obj = pObj;
@@ -390,7 +354,7 @@ HRESULT CCadesSigner_get_check_certificate(CCadesSigner *m, int *result)
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_CheckCertificate(res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;

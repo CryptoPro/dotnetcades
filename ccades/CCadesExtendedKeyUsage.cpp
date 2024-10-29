@@ -1,18 +1,17 @@
 #include "stdafx.h"
 #include <stdlib.h>
-#include <iostream>
-#include <fstream>
 #include "CCadesExtendedKeyUsage.h"
 #include "CPPCadesCPExtendedKeyUsage.h"
 
 using namespace CryptoPro::PKI::CAdES;
-struct CCadesEKUs_t
-{
-    boost::shared_ptr<CPPCadesCPEKUsObject> obj;
-};
+
 struct CCadesExtendedKeyUsage_t
 {
     boost::shared_ptr<CPPCadesCPExtendedKeyUsageObject> obj;
+};
+struct CCadesEKUs_t
+{
+    boost::shared_ptr<CPPCadesCPEKUsObject> obj;
 };
 
 HRESULT CCadesExtendedKeyUsage_create(CCadesExtendedKeyUsage **result)
@@ -78,7 +77,7 @@ HRESULT CCadesExtendedKeyUsage_get_is_present(CCadesExtendedKeyUsage *m, int *re
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsPresent(&res));
-        *result = (int)res;
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -95,7 +94,7 @@ HRESULT CCadesExtendedKeyUsage_get_is_critical(CCadesExtendedKeyUsage *m, int *r
 
         BOOL res;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsCritical(&res));
-        *result = int(res);
+        *result = res;
     }
     CCADESCATCH
     return S_OK;

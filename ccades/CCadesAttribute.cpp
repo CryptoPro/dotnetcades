@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include <stdlib.h>
 #include "CCadesAttribute.h"
-#include "CCadesOID.h"
 #include "CPPCadesCPAttribute.h"
-#include "CPPCadesCPOID.h"
 
 using namespace CryptoPro::PKI::CAdES;
 
@@ -11,7 +9,6 @@ struct CCadesAttribute_t
 {
     boost::shared_ptr<CPPCadesCPAttributeObject> obj;
 };
-
 struct CCadesOID_t
 {
     boost::shared_ptr<CPPCadesCPOIDObject> obj;
@@ -53,9 +50,13 @@ HRESULT CCadesAttribute_get_oid(CCadesAttribute *m, CCadesOID **result)
 {
     try
     {
+        if (!m)
+        {
+            return E_INVALIDARG;
+        }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPOIDObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_OID(pObj));
-
         CCadesOID *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesOID_create(&ret));
         ret->obj = pObj;
@@ -74,8 +75,8 @@ HRESULT CCadesAttribute_put_oid(CCadesAttribute *m, char *value)
             return E_INVALIDARG;
         }
 
-        CAtlString sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_OID(sValue));
+        CAtlString newVal(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_OID(newVal));
     }
     CCADESCATCH
     return S_OK;
@@ -114,8 +115,8 @@ HRESULT CCadesAttribute_put_value(CCadesAttribute *m, char *value)
         }
 
         CAtlStringA sValue(value);
-        CryptoPro::CBlob blob((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_Value(blob));
+        CryptoPro::CBlob pVal((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_Value(pVal));
     }
     CCADESCATCH
     return S_OK;
@@ -147,7 +148,7 @@ HRESULT CCadesAttribute_get_name(CCadesAttribute *m, int *result)
 
         CADESCOM_ATTRIBUTE val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Name(&val));
-        *result = (int)val;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;
@@ -179,7 +180,7 @@ HRESULT CCadesAttribute_get_value_encoding(CCadesAttribute *m, int *result)
 
         CAPICOM_ENCODING_TYPE val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_ValueEncoding(&val));
-        *result = (int)val;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;

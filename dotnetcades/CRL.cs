@@ -58,6 +58,7 @@ namespace dotnetcades
                 Console.WriteLine($"CRL.Dispose() failed: {hresult}");
             }
         }
+
         public void Import(string value)
         {
             int hresult = CCadesCRL_import(_CCadesCRL, value);
@@ -68,7 +69,7 @@ namespace dotnetcades
         }
         public string Export(int encoding)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesCRL_export(_CCadesCRL, encoding, ref ptr);
@@ -87,7 +88,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesCRL_get_auth_key_id(_CCadesCRL, ref ptr);
@@ -107,7 +108,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesCRL_get_issuer_name(_CCadesCRL, ref ptr);
@@ -127,7 +128,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesCRL_get_this_update(_CCadesCRL, ref ptr);
@@ -147,7 +148,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesCRL_get_next_update(_CCadesCRL, ref ptr);
@@ -167,7 +168,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesCRL_get_thumbprint(_CCadesCRL, ref ptr);

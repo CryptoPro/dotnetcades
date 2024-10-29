@@ -31,6 +31,10 @@ namespace dotnetcades
         {
             _CCadesBlobs = m;
         }
+        public static explicit operator IntPtr(Blobs value)
+        {
+            return value._CCadesBlobs;
+        }
         public void Dispose()
         {
             int hresult = CCadesBlobs_destroy(_CCadesBlobs);
@@ -39,9 +43,10 @@ namespace dotnetcades
                 Console.WriteLine($"Blobs.Dispose() failed: {hresult}");
             }
         }
+
         public string Item(int value)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesBlobs_get_item(_CCadesBlobs, value, ref ptr);
@@ -60,7 +65,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesBlobs_get_count(_CCadesBlobs, ref result);
                 if (hresult != 0)
                 {
@@ -71,6 +76,3 @@ namespace dotnetcades
         }
     }
 }
-
-
-

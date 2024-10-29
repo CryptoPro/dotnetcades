@@ -91,11 +91,12 @@ namespace dotnetcades
                 Console.WriteLine($"Certificate.Dispose() failed: {hresult}");
             }
         }
+
         public string IssuerName
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesCertificate_get_issuer_name(_CCadesCertificate, ref ptr);
@@ -115,7 +116,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesCertificate_get_serial_number(_CCadesCertificate, ref ptr);
@@ -135,7 +136,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesCertificate_get_subject_name(_CCadesCertificate, ref ptr);
@@ -155,7 +156,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesCertificate_get_thumbprint(_CCadesCertificate, ref ptr);
@@ -175,7 +176,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesCertificate_get_valid_from_date(_CCadesCertificate, ref ptr);
@@ -195,7 +196,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesCertificate_get_valid_to_date(_CCadesCertificate, ref ptr);
@@ -215,7 +216,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesCertificate_get_version(_CCadesCertificate, ref result);
                 if (hresult != 0)
                 {
@@ -228,63 +229,58 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesCertificate_private_key(_CCadesCertificate, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                PrivateKey result = new PrivateKey(ptr);
-                return result;
+                return new PrivateKey(ptr);
             }
         }
         public PublicKey PublicKey()
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             int hresult = CCadesCertificate_public_key(_CCadesCertificate, ref ptr);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
-            PublicKey result = new PublicKey(ptr);
-            return result;
+            return new PublicKey(ptr);
         }
         public ExtendedKeyUsage ExtendedKeyUsage()
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             int hresult = CCadesCertificate_extended_key_usage(_CCadesCertificate, ref ptr);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
-            ExtendedKeyUsage result = new ExtendedKeyUsage(ptr);
-            return result;
+            return new ExtendedKeyUsage(ptr);
         }
         public KeyUsage KeyUsage()
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             int hresult = CCadesCertificate_key_usage(_CCadesCertificate, ref ptr);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
-            KeyUsage result = new KeyUsage(ptr);
-            return result;
+            return new KeyUsage(ptr);
         }
         public BasicConstraints BasicConstraints()
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             int hresult = CCadesCertificate_basic_constraints(_CCadesCertificate, ref ptr);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
-            BasicConstraints result = new BasicConstraints(ptr);
-            return result;
+            return new BasicConstraints(ptr);
         }
         public string Export(int encoding)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesCertificate_export(_CCadesCertificate, encoding, ref ptr);
@@ -301,7 +297,7 @@ namespace dotnetcades
         }
         public string GetInfo(int InfoType)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesCertificate_get_info(_CCadesCertificate, InfoType, ref ptr);
@@ -318,7 +314,7 @@ namespace dotnetcades
         }
         public bool HasPrivateKey()
         {
-            int result = 0;
+            int result = default;
             int hresult = CCadesCertificate_has_private_key(_CCadesCertificate, ref result);
             if (hresult != 0)
             {
@@ -344,14 +340,13 @@ namespace dotnetcades
         }
         public CertificateStatus IsValid()
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             int hresult = CCadesCertificate_is_valid(_CCadesCertificate, ref ptr);
             if (hresult != 0)
             {
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
-            CertificateStatus result = new CertificateStatus(ptr);
-            return result;
+            return new CertificateStatus(ptr);
         }
     }
 }

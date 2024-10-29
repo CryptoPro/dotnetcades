@@ -6,12 +6,16 @@ namespace dotnetcades
     public class CertificateStatus : IDisposable
     {
         IntPtr _CCadesCertificateStatus = IntPtr.Zero;
-        [DllImport("../ccades/libccades")]
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesCertificateStatus_create(ref IntPtr self);
-        [DllImport("../ccades/libccades")]
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesCertificateStatus_destroy(IntPtr self);
-        [DllImport("../ccades/libccades")]
+
+        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesCertificateStatus_get_result(IntPtr self, ref int result);
+
         public CertificateStatus() 
         {
             int hresult = CCadesCertificateStatus_create(ref _CCadesCertificateStatus);
@@ -24,6 +28,10 @@ namespace dotnetcades
         {
             _CCadesCertificateStatus = m;
         }
+        public static explicit operator IntPtr(CertificateStatus value)
+        {
+            return value._CCadesCertificateStatus;
+        }
         public void Dispose()
         {
             int hresult = CCadesCertificateStatus_destroy(_CCadesCertificateStatus);
@@ -32,11 +40,12 @@ namespace dotnetcades
                 Console.WriteLine($"CertificateStatus.Dispose() failed: {hresult}");
             }
         }
+
         public bool Result
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesCertificateStatus_get_result(_CCadesCertificateStatus, ref result);
                 if (hresult != 0)
                 {
@@ -47,4 +56,3 @@ namespace dotnetcades
         }
     }
 }
-

@@ -64,11 +64,12 @@ namespace dotnetcades
                 Console.WriteLine($"HashedData.Dispose() failed: {hresult}");
             }
         }
+
         public int Algorithm
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesHashedData_get_algorithm(_CCadesHashedData, ref result);
                 if (hresult != 0)
                 {
@@ -76,6 +77,7 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
                 int hresult = CCadesHashedData_put_algorithm(_CCadesHashedData, value);
@@ -89,7 +91,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesHashedData_get_value(_CCadesHashedData, ref ptr);
@@ -109,7 +111,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesHashedData_get_data_encoding(_CCadesHashedData, ref result);
                 if (hresult != 0)
                 {
@@ -117,6 +119,7 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
                 int hresult = CCadesHashedData_put_data_encoding(_CCadesHashedData, value);
@@ -130,7 +133,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesHashedData_get_key(_CCadesHashedData, ref ptr);
@@ -145,6 +148,7 @@ namespace dotnetcades
                     NC.FreeString(ptr);
                 }
             }
+
             set
             {
                 int hresult = CCadesHashedData_put_key(_CCadesHashedData, value);

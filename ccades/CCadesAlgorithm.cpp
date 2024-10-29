@@ -4,6 +4,7 @@
 #include "CPPCadesCPAlgorithm.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesAlgorithm_t
 {
     boost::shared_ptr<CPPCadesCPAlgorithmObject> obj;
@@ -52,8 +53,7 @@ HRESULT CCadesAlgorithm_get_name(CCadesAlgorithm *m, int *result)
 
         CADESCOM_ENCRYPTION_ALGORITHM val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Name(&val));
-        DWORD r = (DWORD)val;
-        *result = r;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;
@@ -85,8 +85,7 @@ HRESULT CCadesAlgorithm_get_key_length(CCadesAlgorithm *m, int *result)
 
         CAPICOM_ENCRYPTION_KEY_LENGTH val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_KeyLength(&val));
-        DWORD r = (DWORD)val;
-        *result = r;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;

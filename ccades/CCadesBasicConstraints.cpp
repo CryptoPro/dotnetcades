@@ -51,9 +51,9 @@ HRESULT CCadesBasicConstraints_get_is_present(CCadesBasicConstraints *m, int *re
             return E_INVALIDARG;
         }
 
-        BOOL r;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsPresent(&r));
-        *result = r;
+        BOOL res;
+        ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsPresent(&res));
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -83,9 +83,9 @@ HRESULT CCadesBasicConstraints_get_is_critical(CCadesBasicConstraints *m, int *r
             return E_INVALIDARG;
         }
 
-        BOOL r;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsCritical(&r));
-        *result = r;
+        BOOL res;
+        ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsCritical(&res));
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -115,9 +115,9 @@ HRESULT CCadesBasicConstraints_get_is_certificate_authority(CCadesBasicConstrain
             return E_INVALIDARG;
         }
 
-        BOOL r;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsCertificateAuthority(&r));
-        *result = r;
+        BOOL res;
+        ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsCertificateAuthority(&res));
+        *result = res;
     }
     CCADESCATCH
     return S_OK;
@@ -132,9 +132,9 @@ HRESULT CCadesBasicConstraints_get_is_path_len_constraint_present(CCadesBasicCon
             return E_INVALIDARG;
         }
 
-        BOOL r;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsPathLenConstraintPresent(&r));
-        *result = r;
+        BOOL res;
+        ATL_HR_ERRORCHECK_RETURN(m->obj->get_IsPathLenConstraintPresent(&res));
+        *result = res;
     }
     CCADESCATCH
     return S_OK;

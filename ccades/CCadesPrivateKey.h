@@ -1,7 +1,6 @@
 #ifndef CCADESPRIVATEKEY_H
 #define CCADESPRIVATEKEY_H
 
-#include <stdbool.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -20,11 +19,11 @@ HRESULT CCadesPrivateKey_get_provider_type(CCadesPrivateKey *m, int *result);
 HRESULT CCadesPrivateKey_get_key_spec(CCadesPrivateKey *m, int *result);
 HRESULT CCadesPrivateKey_get_is_default_pin(CCadesPrivateKey *m, int *result);
 HRESULT CCadesPrivateKey_set_cache_pin(CCadesPrivateKey *m, int value);
-HRESULT CCadesPrivateKey_set_key_pin(CCadesPrivateKey *m, char* value);
+HRESULT CCadesPrivateKey_set_key_pin(CCadesPrivateKey *m, char *value);
 HRESULT CCadesPrivateKey_get_carrier_flags(CCadesPrivateKey *m, int *result);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __CCADESPrivateKey_H__ */
+#endif /* __CCADESPRIVATEKEY_H__ */

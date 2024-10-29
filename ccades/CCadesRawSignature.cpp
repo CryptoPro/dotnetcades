@@ -4,6 +4,7 @@
 #include "CPPCadesRawSignature.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesRawSignature_t
 {
     boost::shared_ptr<CPPCadesRawSignatureObject> obj;
@@ -72,7 +73,7 @@ HRESULT CCadesRawSignature_sign_hash(CCadesRawSignature *m, CCadesHashedData *ha
     return S_OK;
 }
 
-HRESULT CCadesRawSignature_verify_hash(CCadesRawSignature *m, CCadesHashedData *hashed, CCadesCertificate *signer, char* value)
+HRESULT CCadesRawSignature_verify_hash(CCadesRawSignature *m, CCadesHashedData *hashed, CCadesCertificate *signer, char *value)
 {
     try
     {
@@ -81,8 +82,8 @@ HRESULT CCadesRawSignature_verify_hash(CCadesRawSignature *m, CCadesHashedData *
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->VerifyHash(hashed->obj, sValue, signer->obj));
+        CAtlStringA signatureValue(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->VerifyHash(hashed->obj, signatureValue, signer->obj));
     }
     CCADESCATCH
     return S_OK;

@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include <stdlib.h>
 #include "CCadesRecipients.h"
-#include "CCadesOID.h"
 #include "CPPCadesCollections.h"
-#include "CPPCadesCPCertificate.h"
 
 using namespace CryptoPro::PKI::CAdES;
 
@@ -56,9 +54,10 @@ HRESULT CCadesRecipients_get_count(CCadesRecipients *m, int *result)
         {
             return E_INVALIDARG;
         }
-        unsigned int r;
+
+        DWORD r;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Count(&r));
-        *result = (int)r;
+        *result = r;
     }
     CCADESCATCH
     return S_OK;
@@ -72,6 +71,7 @@ HRESULT CCadesRecipients_remove(CCadesRecipients *m, int value)
         {
             return E_INVALIDARG;
         }
+
         ATL_HR_ERRORCHECK_RETURN(m->obj->Remove(value));
     }
     CCADESCATCH
@@ -86,9 +86,9 @@ HRESULT CCadesRecipients_get_item(CCadesRecipients *m, int value, CCadesCertific
         {
             return E_INVALIDARG;
         }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificateObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Item(value, pObj));
-
         CCadesCertificate *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificate_create(&ret));
         ret->obj = pObj;
@@ -106,6 +106,7 @@ HRESULT CCadesRecipients_add(CCadesRecipients *m, CCadesCertificate *obj)
         {
             return E_INVALIDARG;
         }
+
         ATL_HR_ERRORCHECK_RETURN(m->obj->Add(obj->obj));
     }
     CCADESCATCH
@@ -120,6 +121,7 @@ HRESULT CCadesRecipients_clear(CCadesRecipients *m)
         {
             return E_INVALIDARG;
         }
+
         ATL_HR_ERRORCHECK_RETURN(m->obj->Clear());
     }
     CCADESCATCH

@@ -1,8 +1,8 @@
 #ifndef CCADESEXTENDEDKEYUSAGE_H
 #define CCADESEXTENDEDKEYUSAGE_H
 
-#include <stdbool.h>
 #include "CCadesEKUs.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif

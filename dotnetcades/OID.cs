@@ -17,20 +17,19 @@ namespace dotnetcades
         public static extern int CCadesOID_get_name(IntPtr self, ref int result);
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
-        public static extern int CCadesOID_set_name(IntPtr self, int value);
+        public static extern int CCadesOID_put_name(IntPtr self, int value);
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesOID_get_friendly_name(IntPtr self, ref IntPtr result);
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
-        public static extern int CCadesOID_set_friendly_name(IntPtr self, string value);
+        public static extern int CCadesOID_put_friendly_name(IntPtr self, string value);
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesOID_get_value(IntPtr self, ref IntPtr result);
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
-        public static extern int CCadesOID_set_value(IntPtr self, string value);
-
+        public static extern int CCadesOID_put_value(IntPtr self, string value);
 
         public OID() 
         {
@@ -44,6 +43,10 @@ namespace dotnetcades
         {
             _CCadesOID = m;
         }
+        public static explicit operator IntPtr(OID value)
+        {
+            return value._CCadesOID;
+        }
         public void Dispose()
         {
             int hresult = CCadesOID_destroy(_CCadesOID);
@@ -52,11 +55,12 @@ namespace dotnetcades
                 Console.WriteLine($"OID.Dispose() failed: {hresult}");
             }
         }
+
         public int Name
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesOID_get_name(_CCadesOID, ref result);
                 if (hresult != 0)
                 {
@@ -64,9 +68,10 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
-                int hresult = CCadesOID_set_name(_CCadesOID, value);
+                int hresult = CCadesOID_put_name(_CCadesOID, value);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -77,7 +82,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesOID_get_friendly_name(_CCadesOID, ref ptr);
@@ -92,9 +97,10 @@ namespace dotnetcades
                     NC.FreeString(ptr);
                 }
             }
+
             set
             {
-                int hresult = CCadesOID_set_friendly_name(_CCadesOID, value);
+                int hresult = CCadesOID_put_friendly_name(_CCadesOID, value);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -105,7 +111,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesOID_get_value(_CCadesOID, ref ptr);
@@ -120,9 +126,10 @@ namespace dotnetcades
                     NC.FreeString(ptr);
                 }
             }
+
             set
             {
-                int hresult = CCadesOID_set_value(_CCadesOID, value);
+                int hresult = CCadesOID_put_value(_CCadesOID, value);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -131,4 +138,3 @@ namespace dotnetcades
         }
     }
 }
-

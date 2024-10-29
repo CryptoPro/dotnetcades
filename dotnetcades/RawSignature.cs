@@ -43,9 +43,10 @@ namespace dotnetcades
                 Console.WriteLine($"RawSignature.Dispose() failed: {hresult}");
             }
         }
+
         public string SignHash(HashedData hashedData, Certificate signCert)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesRawSignature_sign_hash(_CCadesRawSignature, (IntPtr)hashedData, (IntPtr)signCert, ref ptr);

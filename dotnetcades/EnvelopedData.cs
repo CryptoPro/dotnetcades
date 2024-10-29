@@ -55,6 +55,10 @@ namespace dotnetcades
         {
             _CCadesEnvelopedData = m;
         }
+        public static explicit operator IntPtr(EnvelopedData value)
+        {
+            return value._CCadesEnvelopedData;
+        }
         public void Dispose()
         {
             int hresult = CCadesEnvelopedData_destroy(_CCadesEnvelopedData);
@@ -63,25 +67,25 @@ namespace dotnetcades
                 Console.WriteLine($"EnvelopedData.Dispose() failed: {hresult}");
             }
         }
+
         public Algorithm Algorithm
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesEnvelopedData_get_algorithm(_CCadesEnvelopedData, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Algorithm result = new Algorithm(ptr);
-                return result;
+                return new Algorithm(ptr);
             }
         }
         public string Content
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesEnvelopedData_get_content(_CCadesEnvelopedData, ref ptr);
@@ -96,6 +100,7 @@ namespace dotnetcades
                     NC.FreeString(ptr);
                 }
             }
+
             set
             {
                 int hresult = CCadesEnvelopedData_put_content(_CCadesEnvelopedData, value);
@@ -105,12 +110,11 @@ namespace dotnetcades
                 }
             }
         }
-
         public int ContentEncoding
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesEnvelopedData_get_content_encoding(_CCadesEnvelopedData, ref result);
                 if (hresult != 0)
                 {
@@ -118,6 +122,7 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
                 int hresult = CCadesEnvelopedData_put_content_encoding(_CCadesEnvelopedData, value);
@@ -131,19 +136,18 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesEnvelopedData_get_recipients(_CCadesEnvelopedData, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Recipients result = new Recipients(ptr);
-                return result;
+                return new Recipients(ptr);
             }
         }
         public string Encrypt(int encoding = NC.CADESCOM_ENCODE_BASE64)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
                 int hresult = CCadesEnvelopedData_encrypt(_CCadesEnvelopedData, encoding, ref ptr);
@@ -168,11 +172,11 @@ namespace dotnetcades
         }
         public string StreamEncrypt(string block, bool isFinal)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
-                var iIsFinal = Convert.ToInt32(isFinal);
-                int hresult = CCadesEnvelopedData_stream_encrypt(_CCadesEnvelopedData, block, iIsFinal, ref ptr);
+                int arg_isFinal = Convert.ToInt32(isFinal);
+                int hresult = CCadesEnvelopedData_stream_encrypt(_CCadesEnvelopedData, block, arg_isFinal, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
@@ -186,11 +190,11 @@ namespace dotnetcades
         }
         public string StreamDecrypt(string block, bool isFinal)
         {
-            IntPtr ptr = IntPtr.Zero;
+            IntPtr ptr = default;
             try
             {
-                var iIsFinal = Convert.ToInt32(isFinal);
-                int hresult = CCadesEnvelopedData_stream_decrypt(_CCadesEnvelopedData, block, iIsFinal, ref ptr);
+                int arg_isFinal = Convert.ToInt32(isFinal);
+                int hresult = CCadesEnvelopedData_stream_decrypt(_CCadesEnvelopedData, block, arg_isFinal, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));

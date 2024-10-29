@@ -4,6 +4,7 @@
 #include "CPPCadesCPCertificateStatus.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesCertificateStatus_t
 {
     boost::shared_ptr<CPPCadesCPCertificateStatusObject> obj;
@@ -50,9 +51,9 @@ HRESULT CCadesCertificateStatus_get_result(CCadesCertificateStatus *m, int *resu
             return E_INVALIDARG;
         }
 
-        BOOL r;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->get_Result(&r));
-        *result = (int)r;
+        BOOL res;
+        ATL_HR_ERRORCHECK_RETURN(m->obj->get_Result(&res));
+        *result = res;
     }
     CCADESCATCH
     return S_OK;

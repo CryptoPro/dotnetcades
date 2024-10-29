@@ -4,6 +4,7 @@
 #include "CPPVersion.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesVersion_t
 {
     boost::shared_ptr<CPPVersionObject> obj;

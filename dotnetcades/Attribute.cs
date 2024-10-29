@@ -37,7 +37,6 @@ namespace dotnetcades
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAttribute_put_value_encoding(IntPtr self, int value);
 
-
         public Attribute() 
         {
             int hresult = CCadesAttribute_create(ref _CCadesAttribute);
@@ -50,6 +49,10 @@ namespace dotnetcades
         {
             _CCadesAttribute = m;
         }
+        public static explicit operator IntPtr(Attribute value)
+        {
+            return value._CCadesAttribute;
+        }
         public void Dispose()
         {
             int hresult = CCadesAttribute_destroy(_CCadesAttribute);
@@ -58,23 +61,18 @@ namespace dotnetcades
                 Console.WriteLine($"Attribute.Dispose() failed: {hresult}");
             }
         }
-        public static explicit operator IntPtr(Attribute value)
-        {
-            return value._CCadesAttribute;
-        }
 
         public OID OID
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesAttribute_get_oid(_CCadesAttribute, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                OID result = new OID(ptr);
-                return result;
+                return new OID(ptr);
             }
         }
         public void set_OID(string value)
@@ -85,12 +83,11 @@ namespace dotnetcades
                 throw new Exception(NC.GetErrorMessage(hresult));
             }
         }
-
         public string Value
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesAttribute_get_value(_CCadesAttribute, ref ptr);
@@ -105,6 +102,7 @@ namespace dotnetcades
                     NC.FreeString(ptr);
                 }
             }
+
             set
             {
                 int hresult = CCadesAttribute_put_value(_CCadesAttribute, value);
@@ -118,7 +116,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesAttribute_get_name(_CCadesAttribute, ref result);
                 if (hresult != 0)
                 {
@@ -126,6 +124,7 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
                 int hresult = CCadesAttribute_put_name(_CCadesAttribute, value);
@@ -139,7 +138,7 @@ namespace dotnetcades
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesAttribute_get_value_encoding(_CCadesAttribute, ref result);
                 if (hresult != 0)
                 {
@@ -147,6 +146,7 @@ namespace dotnetcades
                 }
                 return result;
             }
+
             set
             {
                 int hresult = CCadesAttribute_put_value_encoding(_CCadesAttribute, value);
@@ -158,5 +158,3 @@ namespace dotnetcades
         }
     }
 }
-
-

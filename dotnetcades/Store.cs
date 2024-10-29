@@ -58,6 +58,7 @@ namespace dotnetcades
                 Console.WriteLine($"Store.Dispose() failed: {hresult}");
             }
         }
+
         public void Open(int Location = NC.CADESCOM_CURRENT_USER_STORE, string Name = NC.CAPICOM_MY_STORE, int Mode = NC.CAPICOM_STORE_OPEN_READ_ONLY)
         {
             int hresult = CCadesStore_open(_CCadesStore, Location, Name, Mode);
@@ -94,21 +95,20 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesStore_get_certificates(_CCadesStore, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Certificates result = new Certificates(ptr);
-                return result;
+                return new Certificates(ptr);
             }
         }
         public int Location
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesStore_get_location(_CCadesStore, ref result);
                 if (hresult != 0)
                 {
@@ -121,7 +121,7 @@ namespace dotnetcades
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 try
                 {
                     int hresult = CCadesStore_get_name(_CCadesStore, ref ptr);

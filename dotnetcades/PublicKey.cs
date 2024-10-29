@@ -49,53 +49,51 @@ namespace dotnetcades
                 Console.WriteLine($"PublicKey.Dispose() failed: {hresult}");
             }
         }
-        public Algorithm Algorithm
+
+        public OID Algorithm
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesPublicKey_get_algorithm(_CCadesPublicKey, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                Algorithm result = new Algorithm(ptr);
-                return result;
+                return new OID(ptr);
             }
         }
         public EncodedData EncodedKey
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesPublicKey_get_encoded_key(_CCadesPublicKey, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                EncodedData result = new EncodedData(ptr);
-                return result;
+                return new EncodedData(ptr);
             }
         }
         public EncodedData EncodedParameters
         {
             get
             {
-                IntPtr ptr = IntPtr.Zero;
+                IntPtr ptr = default;
                 int hresult = CCadesPublicKey_get_encoded_parameters(_CCadesPublicKey, ref ptr);
                 if (hresult != 0)
                 {
                     throw new Exception(NC.GetErrorMessage(hresult));
                 }
-                EncodedData result = new EncodedData(ptr);
-                return result;
+                return new EncodedData(ptr);
             }
         }
         public int Length
         {
             get
             {
-                int result = 0;
+                int result = default;
                 int hresult = CCadesPublicKey_get_length(_CCadesPublicKey, ref result);
                 if (hresult != 0)
                 {

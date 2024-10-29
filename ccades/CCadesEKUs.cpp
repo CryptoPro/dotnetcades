@@ -1,18 +1,17 @@
 #include "stdafx.h"
 #include <stdlib.h>
 #include "CCadesEKUs.h"
-#include "CCadesOID.h"
 #include "CPPCadesCollections.h"
-#include "CPPCadesCPEKU.h"
 
 using namespace CryptoPro::PKI::CAdES;
-struct CCadesEKU_t
-{
-    boost::shared_ptr<CPPCadesCPEKUObject> obj;
-};
+
 struct CCadesEKUs_t
 {
     boost::shared_ptr<CPPCadesCPEKUsObject> obj;
+};
+struct CCadesEKU_t
+{
+    boost::shared_ptr<CPPCadesCPEKUObject> obj;
 };
 
 HRESULT CCadesEKUs_create(CCadesEKUs **result)
@@ -55,9 +54,10 @@ HRESULT CCadesEKUs_get_count(CCadesEKUs *m, int *result)
         {
             return E_INVALIDARG;
         }
-        unsigned int r;
+
+        DWORD r;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Count(&r));
-        *result = (int)r;
+        *result = r;
     }
     CCADESCATCH
     return S_OK;
@@ -71,6 +71,7 @@ HRESULT CCadesEKUs_get_item(CCadesEKUs *m, int value, CCadesEKU **result)
         {
             return E_INVALIDARG;
         }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPEKUObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Item(value, pObj));
         CCadesEKU *ret = NULL;

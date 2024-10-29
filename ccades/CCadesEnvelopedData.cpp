@@ -4,6 +4,7 @@
 #include "CPPCadesCPEnvelopedData.h"
 
 using namespace CryptoPro::PKI::CAdES;
+
 struct CCadesEnvelopedData_t
 {
     boost::shared_ptr<CPPCadesCPEnvelopedDataObject> obj;
@@ -57,6 +58,7 @@ HRESULT CCadesEnvelopedData_get_algorithm(CCadesEnvelopedData *m, CCadesAlgorith
         {
             return E_INVALIDARG;
         }
+
         boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAlgorithmObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Algorithm(pObj));
         CCadesAlgorithm *ret = NULL;
@@ -68,7 +70,7 @@ HRESULT CCadesEnvelopedData_get_algorithm(CCadesEnvelopedData *m, CCadesAlgorith
     return S_OK;
 }
 
-HRESULT CCadesEnvelopedData_put_content(CCadesEnvelopedData *m, char* value)
+HRESULT CCadesEnvelopedData_put_content(CCadesEnvelopedData *m, char *value)
 {
     try
     {
@@ -76,8 +78,9 @@ HRESULT CCadesEnvelopedData_put_content(CCadesEnvelopedData *m, char* value)
         {
             return E_INVALIDARG;
         }
-        CAtlStringA sValue(value);
-        ATL_HR_ERRORCHECK_RETURN(m->obj->put_Content(sValue.GetBuffer(), sValue.GetLength()));
+
+        CAtlStringA pbData(value);
+        ATL_HR_ERRORCHECK_RETURN(m->obj->put_Content(pbData.GetBuffer(), pbData.GetLength()));
     }
     CCADESCATCH
     return S_OK;
@@ -114,6 +117,7 @@ HRESULT CCadesEnvelopedData_put_content_encoding(CCadesEnvelopedData *m, int val
         {
             return E_INVALIDARG;
         }
+
         ATL_HR_ERRORCHECK_RETURN(m->obj->put_ContentEncoding((CADESCOM_CONTENT_ENCODING_TYPE)value));
     }
     CCADESCATCH
@@ -128,9 +132,10 @@ HRESULT CCadesEnvelopedData_get_content_encoding(CCadesEnvelopedData *m, int *re
         {
             return E_INVALIDARG;
         }
+
         CADESCOM_CONTENT_ENCODING_TYPE val;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_ContentEncoding(&val));
-        *result = (int)val;
+        *result = val;
     }
     CCADESCATCH
     return S_OK;
@@ -156,7 +161,7 @@ HRESULT CCadesEnvelopedData_get_recipients(CCadesEnvelopedData *m, CCadesRecipie
     return S_OK;
 }
 
-HRESULT CCadesEnvelopedData_decrypt(CCadesEnvelopedData *m, char* value)
+HRESULT CCadesEnvelopedData_decrypt(CCadesEnvelopedData *m, char *value)
 {
     try
     {
@@ -166,14 +171,14 @@ HRESULT CCadesEnvelopedData_decrypt(CCadesEnvelopedData *m, char* value)
         }
 
         CAtlStringA sValue(value);
-        CryptoPro::CBlob blob((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
-        ATL_HR_ERRORCHECK_RETURN(m->obj->Decrypt(blob));
+        CryptoPro::CBlob EncryptedMessage((const unsigned char *)sValue.GetBuffer(), sValue.GetLength());
+        ATL_HR_ERRORCHECK_RETURN(m->obj->Decrypt(EncryptedMessage));
     }
     CCADESCATCH
     return S_OK;
 }
 
-HRESULT CCadesEnvelopedData_encrypt(CCadesEnvelopedData *m, int value, char** result)
+HRESULT CCadesEnvelopedData_encrypt(CCadesEnvelopedData *m, int value, char **result)
 {
     try
     {
@@ -205,9 +210,9 @@ HRESULT CCadesEnvelopedData_stream_encrypt(CCadesEnvelopedData *m, char *value, 
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
+        CAtlStringA pbData(value);
         CryptoPro::CBlob blob;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->StreamEncrypt((const char *)sValue.GetBuffer(), sValue.GetLength(), isFinal, blob));
+        ATL_HR_ERRORCHECK_RETURN(m->obj->StreamEncrypt(pbData.GetBuffer(), pbData.GetLength(), isFinal, blob));
         char *buf = (char *)calloc(blob.cbData() + 1, sizeof(char));
         if (!buf)
         {
@@ -229,9 +234,9 @@ HRESULT CCadesEnvelopedData_stream_decrypt(CCadesEnvelopedData *m, char *value, 
             return E_INVALIDARG;
         }
 
-        CAtlStringA sValue(value);
+        CAtlStringA pbData(value);
         CryptoPro::CBlob blob;
-        ATL_HR_ERRORCHECK_RETURN(m->obj->StreamDecrypt((const char *)sValue.GetBuffer(), sValue.GetLength(), isFinal, blob));
+        ATL_HR_ERRORCHECK_RETURN(m->obj->StreamDecrypt(pbData.GetBuffer(), pbData.GetLength(), isFinal, blob));
         char *buf = (char *)calloc(blob.cbData() + 1, sizeof(char));
         if (!buf)
         {
