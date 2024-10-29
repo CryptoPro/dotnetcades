@@ -7,7 +7,7 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesVersion_t
 {
-    boost::shared_ptr<CPPVersionObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPVersionObject> obj;
 };
 
 HRESULT CCadesVersion_create(CCadesVersion **result)
@@ -20,7 +20,7 @@ HRESULT CCadesVersion_create(CCadesVersion **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPVersionObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPVersionObject>();
         *result = m;
     }
     CCADESCATCH

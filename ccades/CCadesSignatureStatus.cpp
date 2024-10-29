@@ -7,7 +7,7 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesSignatureStatus_t
 {
-    boost::shared_ptr<CPPCadesSignatureStatusObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesSignatureStatusObject> obj;
 };
 
 HRESULT CCadesSignatureStatus_create(CCadesSignatureStatus **result)
@@ -20,7 +20,7 @@ HRESULT CCadesSignatureStatus_create(CCadesSignatureStatus **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesSignatureStatusObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesSignatureStatusObject>();
         *result = m;
     }
     CCADESCATCH

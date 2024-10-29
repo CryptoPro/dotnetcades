@@ -7,11 +7,11 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesExtendedKeyUsage_t
 {
-    boost::shared_ptr<CPPCadesCPExtendedKeyUsageObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPExtendedKeyUsageObject> obj;
 };
 struct CCadesEKUs_t
 {
-    boost::shared_ptr<CPPCadesCPEKUsObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUsObject> obj;
 };
 
 HRESULT CCadesExtendedKeyUsage_create(CCadesExtendedKeyUsage **result)
@@ -24,7 +24,7 @@ HRESULT CCadesExtendedKeyUsage_create(CCadesExtendedKeyUsage **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPExtendedKeyUsageObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPExtendedKeyUsageObject>();
         *result = m;
     }
     CCADESCATCH
@@ -55,7 +55,7 @@ HRESULT CCadesExtendedKeyUsage_get_ekus(CCadesExtendedKeyUsage *m, CCadesEKUs **
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPEKUsObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPEKUsObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_EKUs(pObj));
         CCadesEKUs *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesEKUs_create(&ret));

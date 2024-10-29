@@ -7,7 +7,7 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesLicense_t
 {
-    boost::shared_ptr<CPPCadesCPLicenseObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPLicenseObject> obj;
 };
 
 HRESULT CCadesLicense_create(CCadesLicense **result)
@@ -20,7 +20,7 @@ HRESULT CCadesLicense_create(CCadesLicense **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPLicenseObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPLicenseObject>();
         *result = m;
     }
     CCADESCATCH

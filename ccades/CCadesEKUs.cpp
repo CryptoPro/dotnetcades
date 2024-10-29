@@ -7,11 +7,11 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesEKUs_t
 {
-    boost::shared_ptr<CPPCadesCPEKUsObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUsObject> obj;
 };
 struct CCadesEKU_t
 {
-    boost::shared_ptr<CPPCadesCPEKUObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPEKUObject> obj;
 };
 
 HRESULT CCadesEKUs_create(CCadesEKUs **result)
@@ -24,7 +24,7 @@ HRESULT CCadesEKUs_create(CCadesEKUs **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPEKUsObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPEKUsObject>();
         *result = m;
     }
     CCADESCATCH
@@ -72,7 +72,7 @@ HRESULT CCadesEKUs_get_item(CCadesEKUs *m, int value, CCadesEKU **result)
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPEKUObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPEKUObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Item(value, pObj));
         CCadesEKU *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesEKU_create(&ret));

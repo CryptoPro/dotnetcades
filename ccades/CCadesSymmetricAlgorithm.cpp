@@ -7,11 +7,11 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesSymmetricAlgorithm_t
 {
-    boost::shared_ptr<CPPCadesSymmetricAlgorithmObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesSymmetricAlgorithmObject> obj;
 };
 struct CCadesCertificate_t
 {
-    boost::shared_ptr<CPPCadesCPCertificateObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> obj;
 };
 
 HRESULT CCadesSymmetricAlgorithm_create(CCadesSymmetricAlgorithm **result)
@@ -24,7 +24,7 @@ HRESULT CCadesSymmetricAlgorithm_create(CCadesSymmetricAlgorithm **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesSymmetricAlgorithmObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesSymmetricAlgorithmObject>();
         *result = m;
     }
     CCADESCATCH
@@ -188,7 +188,7 @@ HRESULT CCadesSymmetricAlgorithm_diversify_key(CCadesSymmetricAlgorithm *m, CCad
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesSymmetricAlgorithmObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesSymmetricAlgorithmObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->DiversifyKey(pObj));
         CCadesSymmetricAlgorithm *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesSymmetricAlgorithm_create(&ret));

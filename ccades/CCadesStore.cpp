@@ -7,19 +7,19 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesStore_t
 {
-    boost::shared_ptr<CPPCadesCPStoreObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPStoreObject> obj;
 };
 struct CCadesCertificate_t
 {
-    boost::shared_ptr<CPPCadesCPCertificateObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> obj;
 };
 struct CCadesCRL_t
 {
-    boost::shared_ptr<CPPCadesCPCRLObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCRLObject> obj;
 };
 struct CCadesCertificates_t
 {
-    boost::shared_ptr<CPPCadesCPCertificatesObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificatesObject> obj;
 };
 
 HRESULT CCadesStore_create(CCadesStore **result)
@@ -32,7 +32,7 @@ HRESULT CCadesStore_create(CCadesStore **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPStoreObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPStoreObject>();
         *result = m;
     }
     CCADESCATCH
@@ -125,7 +125,7 @@ HRESULT CCadesStore_get_certificates(CCadesStore *m, CCadesCertificates **result
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificatesObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificatesObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Certificates(pObj));
         CCadesCertificates *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificates_create(&ret));

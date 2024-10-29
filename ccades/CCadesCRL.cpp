@@ -7,7 +7,7 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesCRL_t
 {
-    boost::shared_ptr<CPPCadesCPCRLObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCRLObject> obj;
 };
 
 HRESULT CCadesCRL_create(CCadesCRL **result)
@@ -20,7 +20,7 @@ HRESULT CCadesCRL_create(CCadesCRL **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPCRLObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPCRLObject>();
         *result = m;
     }
     CCADESCATCH

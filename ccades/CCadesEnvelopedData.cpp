@@ -7,15 +7,15 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesEnvelopedData_t
 {
-    boost::shared_ptr<CPPCadesCPEnvelopedDataObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPEnvelopedDataObject> obj;
 };
 struct CCadesAlgorithm_t
 {
-    boost::shared_ptr<CPPCadesCPAlgorithmObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPAlgorithmObject> obj;
 };
 struct CCadesRecipients_t
 {
-    boost::shared_ptr<CPPCadesCPRecipientsObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPRecipientsObject> obj;
 };
 
 HRESULT CCadesEnvelopedData_create(CCadesEnvelopedData **result)
@@ -28,7 +28,7 @@ HRESULT CCadesEnvelopedData_create(CCadesEnvelopedData **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPEnvelopedDataObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPEnvelopedDataObject>();
         *result = m;
     }
     CCADESCATCH
@@ -59,7 +59,7 @@ HRESULT CCadesEnvelopedData_get_algorithm(CCadesEnvelopedData *m, CCadesAlgorith
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAlgorithmObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAlgorithmObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Algorithm(pObj));
         CCadesAlgorithm *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesAlgorithm_create(&ret));
@@ -150,7 +150,7 @@ HRESULT CCadesEnvelopedData_get_recipients(CCadesEnvelopedData *m, CCadesRecipie
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPRecipientsObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPRecipientsObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Recipients(pObj));
         CCadesRecipients *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesRecipients_create(&ret));

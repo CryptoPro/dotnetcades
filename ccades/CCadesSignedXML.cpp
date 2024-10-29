@@ -7,15 +7,15 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesSignedXML_t
 {
-    boost::shared_ptr<CPPCadesSignedXMLObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesSignedXMLObject> obj;
 };
 struct CCadesSigners_t
 {
-    boost::shared_ptr<CPPCadesCPSignersObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPSignersObject> obj;
 };
 struct CCadesSigner_t
 {
-    boost::shared_ptr<CPPCadesCPSignerObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPSignerObject> obj;
 };
 
 HRESULT CCadesSignedXML_create(CCadesSignedXML **result)
@@ -28,7 +28,7 @@ HRESULT CCadesSignedXML_create(CCadesSignedXML **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesSignedXMLObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesSignedXMLObject>();
         *result = m;
     }
     CCADESCATCH
@@ -59,7 +59,7 @@ HRESULT CCadesSignedXML_get_signers(CCadesSignedXML *m, CCadesSigners **result)
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPSignersObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPSignersObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Signers(pObj));
         CCadesSigners *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesSigners_create(&ret));

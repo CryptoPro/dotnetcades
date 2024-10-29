@@ -7,7 +7,7 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesEncodedData_t
 {
-    boost::shared_ptr<CPPCadesCPEncodedDataObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPEncodedDataObject> obj;
 };
 
 HRESULT CCadesEncodedData_create(CCadesEncodedData **result)
@@ -20,7 +20,7 @@ HRESULT CCadesEncodedData_create(CCadesEncodedData **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPEncodedDataObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPEncodedDataObject>();
         *result = m;
     }
     CCADESCATCH

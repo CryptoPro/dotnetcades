@@ -7,7 +7,7 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesCertificateStatus_t
 {
-    boost::shared_ptr<CPPCadesCPCertificateStatusObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateStatusObject> obj;
 };
 
 HRESULT CCadesCertificateStatus_create(CCadesCertificateStatus **result)
@@ -20,7 +20,7 @@ HRESULT CCadesCertificateStatus_create(CCadesCertificateStatus **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPCertificateStatusObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPCertificateStatusObject>();
         *result = m;
     }
     CCADESCATCH

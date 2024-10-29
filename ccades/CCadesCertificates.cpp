@@ -7,11 +7,11 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesCertificates_t
 {
-    boost::shared_ptr<CPPCadesCPCertificatesObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificatesObject> obj;
 };
 struct CCadesCertificate_t
 {
-    boost::shared_ptr<CPPCadesCPCertificateObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> obj;
 };
 
 HRESULT CCadesCertificates_create(CCadesCertificates **result)
@@ -24,7 +24,7 @@ HRESULT CCadesCertificates_create(CCadesCertificates **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPCertificatesObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPCertificatesObject>();
         *result = m;
     }
     CCADESCATCH
@@ -72,7 +72,7 @@ HRESULT CCadesCertificates_get_item(CCadesCertificates *m, int value, CCadesCert
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificateObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificateObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->Item(value, pObj));
         CCadesCertificate *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificate_create(&ret));
@@ -96,7 +96,7 @@ HRESULT CCadesCertificates_find_s(CCadesCertificates *m, int FindType, char *Cri
         FindCriteria varCriteria;
         varCriteria.str = CAtlStringA(Criteria);
         varCriteria.dwCriteriaFlag = FIND_CRITERIA_STRING;
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificatesObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificatesObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->Find(findType, &varCriteria, bValidOnly, pObj));
         CCadesCertificates *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificates_create(&ret));

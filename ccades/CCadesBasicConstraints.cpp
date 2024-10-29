@@ -7,7 +7,7 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesBasicConstraints_t
 {
-    boost::shared_ptr<CPPCadesCPBasicConstraintsObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPBasicConstraintsObject> obj;
 };
 
 HRESULT CCadesBasicConstraints_create(CCadesBasicConstraints **result)
@@ -20,7 +20,7 @@ HRESULT CCadesBasicConstraints_create(CCadesBasicConstraints **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPBasicConstraintsObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPBasicConstraintsObject>();
         *result = m;
     }
     CCADESCATCH

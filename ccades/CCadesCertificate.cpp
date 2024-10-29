@@ -7,31 +7,31 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesCertificate_t
 {
-    boost::shared_ptr<CPPCadesCPCertificateObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> obj;
 };
 struct CCadesCertificateStatus_t
 {
-    boost::shared_ptr<CPPCadesCPCertificateStatusObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateStatusObject> obj;
 };
 struct CCadesExtendedKeyUsage_t
 {
-    boost::shared_ptr<CPPCadesCPExtendedKeyUsageObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPExtendedKeyUsageObject> obj;
 };
 struct CCadesKeyUsage_t
 {
-    boost::shared_ptr<CPPCadesCPKeyUsageObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPKeyUsageObject> obj;
 };
 struct CCadesBasicConstraints_t
 {
-    boost::shared_ptr<CPPCadesCPBasicConstraintsObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPBasicConstraintsObject> obj;
 };
 struct CCadesPublicKey_t
 {
-    boost::shared_ptr<CPPCadesCPPublicKeyObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPPublicKeyObject> obj;
 };
 struct CCadesPrivateKey_t
 {
-    boost::shared_ptr<CPPCadesCPPrivateKeyObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPPrivateKeyObject> obj;
 };
 
 HRESULT CCadesCertificate_create(CCadesCertificate **result)
@@ -44,7 +44,7 @@ HRESULT CCadesCertificate_create(CCadesCertificate **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPCertificateObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPCertificateObject>();
         *result = m;
     }
     CCADESCATCH
@@ -115,7 +115,7 @@ HRESULT CCadesCertificate_is_valid(CCadesCertificate *m, CCadesCertificateStatus
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificateStatusObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificateStatusObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->IsValid(pObj));
         CCadesCertificateStatus *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificateStatus_create(&ret));
@@ -135,7 +135,7 @@ HRESULT CCadesCertificate_extended_key_usage(CCadesCertificate *m, CCadesExtende
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPExtendedKeyUsageObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPExtendedKeyUsageObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->ExtendedKeyUsage(pObj));
         CCadesExtendedKeyUsage *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesExtendedKeyUsage_create(&ret));
@@ -155,7 +155,7 @@ HRESULT CCadesCertificate_key_usage(CCadesCertificate *m, CCadesKeyUsage **resul
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPKeyUsageObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPKeyUsageObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->KeyUsage(pObj));
         CCadesKeyUsage *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesKeyUsage_create(&ret));
@@ -372,7 +372,7 @@ HRESULT CCadesCertificate_basic_constraints(CCadesCertificate *m, CCadesBasicCon
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPBasicConstraintsObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPBasicConstraintsObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->BasicConstraints(pObj));
         CCadesBasicConstraints *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesBasicConstraints_create(&ret));
@@ -392,7 +392,7 @@ HRESULT CCadesCertificate_public_key(CCadesCertificate *m, CCadesPublicKey **res
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPPublicKeyObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPPublicKeyObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->PublicKey(pObj));
         CCadesPublicKey *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesPublicKey_create(&ret));
@@ -412,7 +412,7 @@ HRESULT CCadesCertificate_private_key(CCadesCertificate *m, CCadesPrivateKey **r
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPPrivateKeyObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPPrivateKeyObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->PrivateKey(pObj));
         CCadesPrivateKey *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesPrivateKey_create(&ret));

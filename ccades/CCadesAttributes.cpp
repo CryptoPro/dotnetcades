@@ -7,11 +7,11 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesAttributes_t
 {
-    boost::shared_ptr<CPPCadesCPAttributesObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPAttributesObject> obj;
 };
 struct CCadesAttribute_t
 {
-    boost::shared_ptr<CPPCadesCPAttributeObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPAttributeObject> obj;
 };
 
 HRESULT CCadesAttributes_create(CCadesAttributes **result)
@@ -24,7 +24,7 @@ HRESULT CCadesAttributes_create(CCadesAttributes **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPAttributesObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPAttributesObject>();
         *result = m;
     }
     CCADESCATCH
@@ -87,7 +87,7 @@ HRESULT CCadesAttributes_get_item(CCadesAttributes *m, int value, CCadesAttribut
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAttributeObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAttributeObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Item(value, pObj));
         CCadesAttribute *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesAttribute_create(&ret));

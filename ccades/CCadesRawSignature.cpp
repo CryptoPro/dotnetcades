@@ -7,15 +7,15 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesRawSignature_t
 {
-    boost::shared_ptr<CPPCadesRawSignatureObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesRawSignatureObject> obj;
 };
 struct CCadesHashedData_t
 {
-    boost::shared_ptr<CPPCadesCPHashedDataObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPHashedDataObject> obj;
 };
 struct CCadesCertificate_t
 {
-    boost::shared_ptr<CPPCadesCPCertificateObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> obj;
 };
 
 HRESULT CCadesRawSignature_create(CCadesRawSignature **result)
@@ -28,7 +28,7 @@ HRESULT CCadesRawSignature_create(CCadesRawSignature **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesRawSignatureObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesRawSignatureObject>();
         *result = m;
     }
     CCADESCATCH

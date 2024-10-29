@@ -7,11 +7,11 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesAbout_t
 {
-    boost::shared_ptr<CPPCadesAboutObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesAboutObject> obj;
 };
 struct CCadesVersion_t
 {
-    boost::shared_ptr<CPPVersionObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPVersionObject> obj;
 };
 
 HRESULT CCadesAbout_create(CCadesAbout **result)
@@ -24,7 +24,7 @@ HRESULT CCadesAbout_create(CCadesAbout **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesAboutObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesAboutObject>();
         *result = m;
     }
     CCADESCATCH
@@ -130,7 +130,7 @@ HRESULT CCadesAbout_get_csp_version(CCadesAbout *m, char *szProvName, int dwProv
         }
 
         CAtlStringA provName(szProvName);
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPVersionObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPVersionObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_CSPVersion(provName, dwProvType, pObj));
         CCadesVersion *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesVersion_create(&ret));
@@ -150,7 +150,7 @@ HRESULT CCadesAbout_get_plugin_version(CCadesAbout *m, CCadesVersion **result)
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPVersionObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPVersionObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_PluginVersion(pObj));
         CCadesVersion *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesVersion_create(&ret));

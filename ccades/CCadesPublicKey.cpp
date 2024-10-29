@@ -7,15 +7,15 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesPublicKey_t
 {
-    boost::shared_ptr<CPPCadesCPPublicKeyObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPPublicKeyObject> obj;
 };
 struct CCadesOID_t
 {
-    boost::shared_ptr<CPPCadesCPOIDObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPOIDObject> obj;
 };
 struct CCadesEncodedData_t
 {
-    boost::shared_ptr<CPPCadesCPEncodedDataObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPEncodedDataObject> obj;
 };
 
 HRESULT CCadesPublicKey_create(CCadesPublicKey **result)
@@ -28,7 +28,7 @@ HRESULT CCadesPublicKey_create(CCadesPublicKey **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPPublicKeyObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPPublicKeyObject>();
         *result = m;
     }
     CCADESCATCH
@@ -59,7 +59,7 @@ HRESULT CCadesPublicKey_get_algorithm(CCadesPublicKey *m, CCadesOID **result)
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPOIDObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPOIDObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Algorithm(pObj));
         CCadesOID *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesOID_create(&ret));
@@ -79,7 +79,7 @@ HRESULT CCadesPublicKey_get_encoded_key(CCadesPublicKey *m, CCadesEncodedData **
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPEncodedDataObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPEncodedDataObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_EncodedKey(pObj));
         CCadesEncodedData *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesEncodedData_create(&ret));
@@ -99,7 +99,7 @@ HRESULT CCadesPublicKey_get_encoded_parameters(CCadesPublicKey *m, CCadesEncoded
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPEncodedDataObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPEncodedDataObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_EncodedParameters(pObj));
         CCadesEncodedData *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesEncodedData_create(&ret));
