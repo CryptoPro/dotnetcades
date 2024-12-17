@@ -7,23 +7,23 @@ using namespace CryptoPro::PKI::CAdES;
 
 struct CCadesSigner_t
 {
-    boost::shared_ptr<CPPCadesCPSignerObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPSignerObject> obj;
 };
 struct CCadesCertificate_t
 {
-    boost::shared_ptr<CPPCadesCPCertificateObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPCertificateObject> obj;
 };
 struct CCadesAttributes_t
 {
-    boost::shared_ptr<CPPCadesCPAttributesObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPAttributesObject> obj;
 };
 struct CCadesBlobs_t
 {
-    boost::shared_ptr<CPPCadesCPBlobsObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesCPBlobsObject> obj;
 };
 struct CCadesSignatureStatus_t
 {
-    boost::shared_ptr<CPPCadesSignatureStatusObject> obj;
+    NS_SHARED_PTR::shared_ptr<CPPCadesSignatureStatusObject> obj;
 };
 
 HRESULT CCadesSigner_create(CCadesSigner **result)
@@ -36,7 +36,7 @@ HRESULT CCadesSigner_create(CCadesSigner **result)
             printf("Memory allocation failed");
             return E_UNEXPECTED;
         }
-        m->obj = boost::make_shared<CPPCadesCPSignerObject>();
+        m->obj = NS_SHARED_PTR::make_shared<CPPCadesCPSignerObject>();
         *result = m;
     }
     CCADESCATCH
@@ -67,7 +67,7 @@ HRESULT CCadesSigner_get_authenticated_attributes2(CCadesSigner *m, CCadesAttrib
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAttributesObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAttributesObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_AuthenticatedAttributes(pObj));
         CCadesAttributes *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesAttributes_create(&ret));
@@ -87,7 +87,7 @@ HRESULT CCadesSigner_get_unauthenticated_attributes(CCadesSigner *m, CCadesAttri
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAttributesObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPAttributesObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_UnauthenticatedAttributes(pObj));
         CCadesAttributes *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesAttributes_create(&ret));
@@ -107,7 +107,7 @@ HRESULT CCadesSigner_get_certificate(CCadesSigner *m, CCadesCertificate **result
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificateObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPCertificateObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_Certificate(pObj));
         CCadesCertificate *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesCertificate_create(&ret));
@@ -174,7 +174,7 @@ HRESULT CCadesSigner_get_crls(CCadesSigner *m, CCadesBlobs **result)
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPBlobsObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPBlobsObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_CRLs(pObj));
         CCadesBlobs *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesBlobs_create(&ret));
@@ -194,7 +194,7 @@ HRESULT CCadesSigner_get_ocsp_responses(CCadesSigner *m, CCadesBlobs **result)
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPBlobsObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesCPBlobsObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_OCSPResponses(pObj));
         CCadesBlobs *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesBlobs_create(&ret));
@@ -317,7 +317,7 @@ HRESULT CCadesSigner_get_signature_status(CCadesSigner *m, CCadesSignatureStatus
             return E_INVALIDARG;
         }
 
-        boost::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesSignatureStatusObject> pObj;
+        NS_SHARED_PTR::shared_ptr<CryptoPro::PKI::CAdES::CPPCadesSignatureStatusObject> pObj;
         ATL_HR_ERRORCHECK_RETURN(m->obj->get_SignatureStatus(pObj));
         CCadesSignatureStatus *ret = NULL;
         ATL_HR_ERRORCHECK_RETURN(CCadesSignatureStatus_create(&ret));
