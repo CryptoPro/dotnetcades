@@ -6,6 +6,7 @@ namespace dotnetcades
     public class SignatureStatus : IDisposable
     {
         IntPtr _CCadesSignatureStatus = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesSignatureStatus_create(ref IntPtr self);
@@ -32,13 +33,30 @@ namespace dotnetcades
         {
             return value._CCadesSignatureStatus;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesSignatureStatus != IntPtr.Zero)
+                {
+                    int hresult = CCadesSignatureStatus_destroy(_CCadesSignatureStatus);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"SignatureStatus.Dispose() failed: {hresult}");
+                    }
+                    _CCadesSignatureStatus = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesSignatureStatus_destroy(_CCadesSignatureStatus);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"SignatureStatus.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~SignatureStatus()
+        {
+            Dispose(false);
         }
 
         public bool IsValid

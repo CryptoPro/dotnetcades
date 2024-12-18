@@ -6,6 +6,7 @@ namespace dotnetcades
     public class EnvelopedData : IDisposable
     {
         IntPtr _CCadesEnvelopedData = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesEnvelopedData_create(ref IntPtr self);
@@ -59,13 +60,30 @@ namespace dotnetcades
         {
             return value._CCadesEnvelopedData;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesEnvelopedData != IntPtr.Zero)
+                {
+                    int hresult = CCadesEnvelopedData_destroy(_CCadesEnvelopedData);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"EnvelopedData.Dispose() failed: {hresult}");
+                    }
+                    _CCadesEnvelopedData = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesEnvelopedData_destroy(_CCadesEnvelopedData);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"EnvelopedData.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~EnvelopedData()
+        {
+            Dispose(false);
         }
 
         public Algorithm Algorithm

@@ -6,6 +6,7 @@ namespace dotnetcades
     public class HashedData : IDisposable
     {
         IntPtr _CCadesHashedData = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesHashedData_create(ref IntPtr self);
@@ -56,13 +57,30 @@ namespace dotnetcades
         {
             return value._CCadesHashedData;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesHashedData != IntPtr.Zero)
+                {
+                    int hresult = CCadesHashedData_destroy(_CCadesHashedData);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"HashedData.Dispose() failed: {hresult}");
+                    }
+                    _CCadesHashedData = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesHashedData_destroy(_CCadesHashedData);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"HashedData.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~HashedData()
+        {
+            Dispose(false);
         }
 
         public int Algorithm

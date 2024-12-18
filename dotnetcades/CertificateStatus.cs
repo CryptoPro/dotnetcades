@@ -6,6 +6,7 @@ namespace dotnetcades
     public class CertificateStatus : IDisposable
     {
         IntPtr _CCadesCertificateStatus = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesCertificateStatus_create(ref IntPtr self);
@@ -32,13 +33,30 @@ namespace dotnetcades
         {
             return value._CCadesCertificateStatus;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesCertificateStatus != IntPtr.Zero)
+                {
+                    int hresult = CCadesCertificateStatus_destroy(_CCadesCertificateStatus);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"CertificateStatus.Dispose() failed: {hresult}");
+                    }
+                    _CCadesCertificateStatus = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesCertificateStatus_destroy(_CCadesCertificateStatus);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"CertificateStatus.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~CertificateStatus()
+        {
+            Dispose(false);
         }
 
         public bool Result

@@ -6,6 +6,7 @@ namespace dotnetcades
     public class Algorithm : IDisposable
     {
         IntPtr _CCadesAlgorithm = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAlgorithm_create(ref IntPtr self);
@@ -41,13 +42,30 @@ namespace dotnetcades
         {
             return value._CCadesAlgorithm;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesAlgorithm != IntPtr.Zero)
+                {
+                    int hresult = CCadesAlgorithm_destroy(_CCadesAlgorithm);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"Algorithm.Dispose() failed: {hresult}");
+                    }
+                    _CCadesAlgorithm = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesAlgorithm_destroy(_CCadesAlgorithm);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"Algorithm.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~Algorithm()
+        {
+            Dispose(false);
         }
         public int Name
         {

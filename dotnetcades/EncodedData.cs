@@ -6,6 +6,7 @@ namespace dotnetcades
     public class EncodedData : IDisposable
     {
         IntPtr _CCadesEncodedData = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesEncodedData_create(ref IntPtr self);
@@ -35,13 +36,30 @@ namespace dotnetcades
         {
             return value._CCadesEncodedData;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesEncodedData != IntPtr.Zero)
+                {
+                    int hresult = CCadesEncodedData_destroy(_CCadesEncodedData);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"EncodedData.Dispose() failed: {hresult}");
+                    }
+                    _CCadesEncodedData = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesEncodedData_destroy(_CCadesEncodedData);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"EncodedData.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~EncodedData()
+        {
+            Dispose(false);
         }
 
         public string Format(bool bMultiline = false)

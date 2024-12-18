@@ -6,6 +6,7 @@ namespace dotnetcades
     public class RawSignature : IDisposable
     {
         IntPtr _CCadesRawSignature = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesRawSignature_create(ref IntPtr self);
@@ -35,13 +36,30 @@ namespace dotnetcades
         {
             return value._CCadesRawSignature;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesRawSignature != IntPtr.Zero)
+                {
+                    int hresult = CCadesRawSignature_destroy(_CCadesRawSignature);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"RawSignature.Dispose() failed: {hresult}");
+                    }
+                    _CCadesRawSignature = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesRawSignature_destroy(_CCadesRawSignature);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"RawSignature.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~RawSignature()
+        {
+            Dispose(false);
         }
 
         public string SignHash(HashedData hashedData, Certificate signCert)

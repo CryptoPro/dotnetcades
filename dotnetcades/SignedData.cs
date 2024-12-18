@@ -6,6 +6,7 @@ namespace dotnetcades
     public class SignedData : IDisposable
     {
         IntPtr _CCadesSignedData = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesSignedData_create(ref IntPtr self);
@@ -83,13 +84,30 @@ namespace dotnetcades
         {
             return value._CCadesSignedData;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesSignedData != IntPtr.Zero)
+                {
+                    int hresult = CCadesSignedData_destroy(_CCadesSignedData);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"SignedData.Dispose() failed: {hresult}");
+                    }
+                    _CCadesSignedData = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesSignedData_destroy(_CCadesSignedData);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"SignedData.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~SignedData()
+        {
+            Dispose(false);
         }
 
         public Certificates Certificates

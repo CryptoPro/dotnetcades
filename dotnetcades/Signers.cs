@@ -6,6 +6,7 @@ namespace dotnetcades
     public class Signers : IDisposable
     {
         IntPtr _CCadesSigners = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesSigners_create(ref IntPtr self);
@@ -35,13 +36,30 @@ namespace dotnetcades
         {
             return value._CCadesSigners;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesSigners != IntPtr.Zero)
+                {
+                    int hresult = CCadesSigners_destroy(_CCadesSigners);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"Signers.Dispose() failed: {hresult}");
+                    }
+                    _CCadesSigners = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesSigners_destroy(_CCadesSigners);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"Signers.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~Signers()
+        {
+            Dispose(false);
         }
 
         public int Count

@@ -6,6 +6,7 @@ namespace dotnetcades
     public class Version : IDisposable
     {
         IntPtr _CCadesVersion = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesVersion_create(ref IntPtr self);
@@ -41,15 +42,31 @@ namespace dotnetcades
         {
             return value._CCadesVersion;
         }
-        public void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
-            int hresult = CCadesVersion_destroy(_CCadesVersion);
-            if (hresult != 0)
+            if (!_disposed)
             {
-                Console.WriteLine($"Version.Dispose() failed: {hresult}");
+                if (_CCadesVersion != IntPtr.Zero)
+                {
+                    int hresult = CCadesVersion_destroy(_CCadesVersion);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"Version.Dispose() failed: {hresult}");
+                    }
+                    _CCadesVersion = IntPtr.Zero;
+                }
+                _disposed = true;
             }
         }
-
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~Version()
+        {
+            Dispose(false);
+        }
         public string toString()
         {
             IntPtr ptr = default;

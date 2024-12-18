@@ -6,6 +6,7 @@ namespace dotnetcades
     public class EKU : IDisposable
     {
         IntPtr _CCadesEKU = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesEKU_create(ref IntPtr self);
@@ -41,13 +42,30 @@ namespace dotnetcades
         {
             return value._CCadesEKU;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesEKU != IntPtr.Zero)
+                {
+                    int hresult = CCadesEKU_destroy(_CCadesEKU);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"EKU.Dispose() failed: {hresult}");
+                    }
+                    _CCadesEKU = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesEKU_destroy(_CCadesEKU);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"EKU.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~EKU()
+        {
+            Dispose(false);
         }
 
         public int Name

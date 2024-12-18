@@ -6,6 +6,7 @@ namespace dotnetcades
     public class KeyUsage : IDisposable
     {
         IntPtr _CCadesKeyUsage = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_create(ref IntPtr self);
@@ -62,13 +63,30 @@ namespace dotnetcades
         {
             return value._CCadesKeyUsage;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesKeyUsage != IntPtr.Zero)
+                {
+                    int hresult = CCadesKeyUsage_destroy(_CCadesKeyUsage);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"KeyUsage.Dispose() failed: {hresult}");
+                    }
+                    _CCadesKeyUsage = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesKeyUsage_destroy(_CCadesKeyUsage);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"KeyUsage.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~KeyUsage()
+        {
+            Dispose(false);
         }
 
         public bool IsPresent

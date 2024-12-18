@@ -6,6 +6,7 @@ namespace dotnetcades
     public class SignedXML : IDisposable
     {
         IntPtr _CCadesSignedXML = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesSignedXML_create(ref IntPtr self);
@@ -53,13 +54,30 @@ namespace dotnetcades
         {
             return value._CCadesSignedXML;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesSignedXML != IntPtr.Zero)
+                {
+                    int hresult = CCadesSignedXML_destroy(_CCadesSignedXML);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"SignedXML.Dispose() failed: {hresult}");
+                    }
+                    _CCadesSignedXML = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesSignedXML_destroy(_CCadesSignedXML);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"SignedXML.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~SignedXML()
+        {
+            Dispose(false);
         }
 
         public string Content

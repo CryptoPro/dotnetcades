@@ -6,6 +6,7 @@ namespace dotnetcades
     public class PublicKey : IDisposable
     {
         IntPtr _CCadesPublicKey = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesPublicKey_create(ref IntPtr self);
@@ -41,13 +42,30 @@ namespace dotnetcades
         {
             return value._CCadesPublicKey;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesPublicKey != IntPtr.Zero)
+                {
+                    int hresult = CCadesPublicKey_destroy(_CCadesPublicKey);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"PublicKey.Dispose() failed: {hresult}");
+                    }
+                    _CCadesPublicKey = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesPublicKey_destroy(_CCadesPublicKey);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"PublicKey.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~PublicKey()
+        {
+            Dispose(false);
         }
 
         public OID Algorithm

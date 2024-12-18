@@ -6,6 +6,7 @@ namespace dotnetcades
     public class PrivateKey : IDisposable
     {
         IntPtr _CCadesPrivateKey = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesPrivateKey_create(ref IntPtr self);
@@ -59,13 +60,30 @@ namespace dotnetcades
         {
             return value._CCadesPrivateKey;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesPrivateKey != IntPtr.Zero)
+                {
+                    int hresult = CCadesPrivateKey_destroy(_CCadesPrivateKey);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"PrivateKey.Dispose() failed: {hresult}");
+                    }
+                    _CCadesPrivateKey = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesPrivateKey_destroy(_CCadesPrivateKey);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"PrivateKey.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~PrivateKey()
+        {
+            Dispose(false);
         }
 
         public void ChangePin()

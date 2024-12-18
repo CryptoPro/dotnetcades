@@ -6,6 +6,7 @@ namespace dotnetcades
     public class BasicConstraints : IDisposable
     {
         IntPtr _CCadesBasicConstraints = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesBasicConstraints_create(ref IntPtr self);
@@ -50,13 +51,30 @@ namespace dotnetcades
         {
             return value._CCadesBasicConstraints;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesBasicConstraints != IntPtr.Zero)
+                {
+                    int hresult = CCadesBasicConstraints_destroy(_CCadesBasicConstraints);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"BasicConstraints.Dispose() failed: {hresult}");
+                    }
+                    _CCadesBasicConstraints = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesBasicConstraints_destroy(_CCadesBasicConstraints);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"BasicConstraints.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~BasicConstraints()
+        {
+            Dispose(false);
         }
 
         public bool IsPresent

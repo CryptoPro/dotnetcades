@@ -6,6 +6,7 @@ namespace dotnetcades
     public class ExtendedKeyUsage : IDisposable
     {
         IntPtr _CCadesExtendedKeyUsage = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesExtendedKeyUsage_create(ref IntPtr self);
@@ -38,13 +39,30 @@ namespace dotnetcades
         {
             return value._CCadesExtendedKeyUsage;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesExtendedKeyUsage != IntPtr.Zero)
+                {
+                    int hresult = CCadesExtendedKeyUsage_destroy(_CCadesExtendedKeyUsage);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"ExtendedKeyUsage.Dispose() failed: {hresult}");
+                    }
+                    _CCadesExtendedKeyUsage = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesExtendedKeyUsage_destroy(_CCadesExtendedKeyUsage);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"ExtendedKeyUsage.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~ExtendedKeyUsage()
+        {
+            Dispose(false);
         }
 
         public EKUs EKUs

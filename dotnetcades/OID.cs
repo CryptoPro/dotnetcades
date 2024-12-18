@@ -6,6 +6,7 @@ namespace dotnetcades
     public class OID : IDisposable
     {
         IntPtr _CCadesOID = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesOID_create(ref IntPtr self);
@@ -47,13 +48,30 @@ namespace dotnetcades
         {
             return value._CCadesOID;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesOID != IntPtr.Zero)
+                {
+                    int hresult = CCadesOID_destroy(_CCadesOID);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"OID.Dispose() failed: {hresult}");
+                    }
+                    _CCadesOID = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesOID_destroy(_CCadesOID);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"OID.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~OID()
+        {
+            Dispose(false);
         }
 
         public int Name

@@ -6,6 +6,7 @@ namespace dotnetcades
     public class CRL : IDisposable
     {
         IntPtr _CCadesCRL = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesCRL_create(ref IntPtr self);
@@ -50,13 +51,30 @@ namespace dotnetcades
         {
             return value._CCadesCRL;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesCRL != IntPtr.Zero)
+                {
+                    int hresult = CCadesCRL_destroy(_CCadesCRL);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"CRL.Dispose() failed: {hresult}");
+                    }
+                    _CCadesCRL = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesCRL_destroy(_CCadesCRL);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"CRL.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~CRL()
+        {
+            Dispose(false);
         }
 
         public void Import(string value)

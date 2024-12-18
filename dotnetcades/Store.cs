@@ -6,6 +6,7 @@ namespace dotnetcades
     public class Store : IDisposable
     {
         IntPtr _CCadesStore = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesStore_create(ref IntPtr self);
@@ -50,13 +51,30 @@ namespace dotnetcades
         {
             return value._CCadesStore;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesStore != IntPtr.Zero)
+                {
+                    int hresult = CCadesStore_destroy(_CCadesStore);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"Store.Dispose() failed: {hresult}");
+                    }
+                    _CCadesStore = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesStore_destroy(_CCadesStore);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"Store.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~Store()
+        {
+            Dispose(false);
         }
 
         public void Open(int Location = NC.CADESCOM_CURRENT_USER_STORE, string Name = NC.CAPICOM_MY_STORE, int Mode = NC.CAPICOM_STORE_OPEN_READ_ONLY)

@@ -6,6 +6,7 @@ namespace dotnetcades
     public class License : IDisposable
     {
         IntPtr _CCadesLicense = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesLicense_create(ref IntPtr self);
@@ -47,13 +48,30 @@ namespace dotnetcades
         {
             return value._CCadesLicense;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesLicense != IntPtr.Zero)
+                {
+                    int hresult = CCadesLicense_destroy(_CCadesLicense);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"License.Dispose() failed: {hresult}");
+                    }
+                    _CCadesLicense = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesLicense_destroy(_CCadesLicense);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"License.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~License()
+        {
+            Dispose(false);
         }
 
         public string SerialNumber(int product = NC.CADESCOM_PRODUCT_CSP)

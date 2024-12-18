@@ -6,6 +6,7 @@ namespace dotnetcades
     public class Blobs : IDisposable
     {
         IntPtr _CCadesBlobs = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesBlobs_create(ref IntPtr self);
@@ -35,13 +36,30 @@ namespace dotnetcades
         {
             return value._CCadesBlobs;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesBlobs != IntPtr.Zero)
+                {
+                    int hresult = CCadesBlobs_destroy(_CCadesBlobs);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"Blobs.Dispose() failed: {hresult}");
+                    }
+                    _CCadesBlobs = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesBlobs_destroy(_CCadesBlobs);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"Blobs.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~Blobs()
+        {
+            Dispose(false);
         }
 
         public string Item(int value)

@@ -6,6 +6,7 @@ namespace dotnetcades
     public class SymmetricAlgorithm : IDisposable
     {
         IntPtr _CCadesSymmetricAlgorithm = IntPtr.Zero;
+        bool _disposed;
 
         [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesSymmetricAlgorithm_create(ref IntPtr self);
@@ -62,13 +63,30 @@ namespace dotnetcades
         {
             return value._CCadesSymmetricAlgorithm;
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (_CCadesSymmetricAlgorithm != IntPtr.Zero)
+                {
+                    int hresult = CCadesSymmetricAlgorithm_destroy(_CCadesSymmetricAlgorithm);
+                    if (hresult != 0)
+                    {
+                        Console.WriteLine($"SymmetricAlgorithm.Dispose() failed: {hresult}");
+                    }
+                    _CCadesSymmetricAlgorithm = IntPtr.Zero;
+                }
+                _disposed = true;
+            }
+        }
         public void Dispose()
         {
-            int hresult = CCadesSymmetricAlgorithm_destroy(_CCadesSymmetricAlgorithm);
-            if (hresult != 0)
-            {
-                Console.WriteLine($"SymmetricAlgorithm.Dispose() failed: {hresult}");
-            }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~SymmetricAlgorithm()
+        {
+            Dispose(false);
         }
 
         public string DiversData
