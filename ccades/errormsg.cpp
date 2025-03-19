@@ -5,6 +5,7 @@
 
 #define IGNORE_LEGACY_FORMAT_MESSAGE_MSG
 #include <iostream>
+#include <cstdint>
 #ifdef UNIX
 #   include "CSP_WinCrypt.h"
 #   include "CSP_WinError.h"
