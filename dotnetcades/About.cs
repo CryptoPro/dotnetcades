@@ -8,37 +8,37 @@ namespace dotnetcades
         IntPtr _CCadesAbout = IntPtr.Zero;
         bool _disposed;
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAbout_create(ref IntPtr self);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAbout_destroy(IntPtr self);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAbout_get_version(IntPtr self, ref IntPtr result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAbout_get_csp_name(IntPtr self, int dwProvType, ref IntPtr result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAbout_get_major_version(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAbout_get_minor_version(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAbout_get_build_version(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAbout_get_plugin_version(IntPtr self, ref IntPtr result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAbout_get_csp_version(IntPtr self, string ProvName, int ProvType, ref IntPtr result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAbout_media_filter(IntPtr self, int dwMediaType);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesAbout_reader_filter(IntPtr self, int EnabledTypes, int EnabledOperations, string FilterRegexp);
 
         public About() 

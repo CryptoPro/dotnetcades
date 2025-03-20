@@ -8,43 +8,43 @@ namespace dotnetcades
         IntPtr _CCadesKeyUsage = IntPtr.Zero;
         bool _disposed;
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_create(ref IntPtr self);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_destroy(IntPtr self);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_get_is_present(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_get_is_critical(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_get_is_crl_sign_enabled(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_get_is_data_encipherment_enabled(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_get_is_decipher_only_enabled(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_get_is_digital_signature_enabled(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_get_is_encipher_only_enabled(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_get_is_key_agreement_enabled(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_get_is_key_cert_sign_enabled(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_get_is_key_encipherment_enabled(IntPtr self, ref int result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesKeyUsage_get_is_non_repudiation_enabled(IntPtr self, ref int result);
 
         public KeyUsage() 

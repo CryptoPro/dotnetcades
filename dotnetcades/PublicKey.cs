@@ -8,22 +8,22 @@ namespace dotnetcades
         IntPtr _CCadesPublicKey = IntPtr.Zero;
         bool _disposed;
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesPublicKey_create(ref IntPtr self);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesPublicKey_destroy(IntPtr self);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesPublicKey_get_algorithm(IntPtr self, ref IntPtr result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesPublicKey_get_encoded_key(IntPtr self, ref IntPtr result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesPublicKey_get_encoded_parameters(IntPtr self, ref IntPtr result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesPublicKey_get_length(IntPtr self, ref int result);
 
         public PublicKey() 

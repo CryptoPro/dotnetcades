@@ -8,16 +8,16 @@ namespace dotnetcades
         IntPtr _CCadesRawSignature = IntPtr.Zero;
         bool _disposed;
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesRawSignature_create(ref IntPtr self);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesRawSignature_destroy(IntPtr self);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesRawSignature_sign_hash(IntPtr self, IntPtr hashedData, IntPtr signCert, ref IntPtr result);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesRawSignature_verify_hash(IntPtr self, IntPtr hashedData, IntPtr signCert, string value);
 
         public RawSignature() 

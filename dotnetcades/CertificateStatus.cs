@@ -8,13 +8,13 @@ namespace dotnetcades
         IntPtr _CCadesCertificateStatus = IntPtr.Zero;
         bool _disposed;
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesCertificateStatus_create(ref IntPtr self);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesCertificateStatus_destroy(IntPtr self);
 
-        [DllImport("../ccades/libccades", CharSet = CharSet.Ansi)]
+        [DllImport("libccades", CharSet = CharSet.Ansi)]
         public static extern int CCadesCertificateStatus_get_result(IntPtr self, ref int result);
 
         public CertificateStatus() 

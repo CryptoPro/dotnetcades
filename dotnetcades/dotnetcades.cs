@@ -5,10 +5,10 @@ namespace dotnetcades
 {
     public static class NC
     {
-        [DllImport("../ccades/libccades")]
+        [DllImport("libccades")]
         public static extern int FreeString(IntPtr szString);
 
-        [DllImport("../ccades/libccades")]
+        [DllImport("libccades")]
         public static extern IntPtr CSGetErrorMessage(int hresult);
 
         public static string GetErrorMessage(int hresult)
