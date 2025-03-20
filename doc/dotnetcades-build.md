@@ -30,7 +30,12 @@ cd build
 cmake ..
 make -j4
 ```
-6. Выполнить сборку dotnetcades (и опционально запустить примеры из папки samples)
+6. Обеспечить доступность собранной библиотеки libccades.so для dlopen ([подробнее](https://www.mono-project.com/docs/advanced/pinvoke/#linux-shared-library-search-path)).<br/>
+Например, добавить путь до libccades.so в переменную окружения LD_LIBRARY_PATH:
+```
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/libccades_folder
+```
+7. Выполнить сборку dotnetcades (и опционально запустить примеры из папки samples)
 ```
 dotnet restore
 dotnet build
