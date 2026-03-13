@@ -24,10 +24,14 @@ RUN ./csp/install.sh
 RUN apt-get install -y --no-install-recommends \
         ./csp/cprocsp-rdr-gui-gtk* \
         ./csp/lsb-cprocsp-devel* \
+        ./csp/cprocsp-legacy* \
         ./csp/cprocsp-pki-cades* && \
     rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/CryptoPro/dotnetcades.git
+
+# for development purposes
+# COPY . /dotnetcades/
 
 WORKDIR /dotnetcades
 
