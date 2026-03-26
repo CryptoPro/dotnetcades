@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "samples", "samples\samples.csproj", "{883BBDAB-68D5-49FF-A3BE-24A80B78625F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnetcades", "dotnetcades\dotnetcades.csproj", "{7C9C3BCA-7742-44E2-8685-32E2B2C04720}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnetcades", "src\dotnetcades\dotnetcades.csproj", "{7C9C3BCA-7742-44E2-8685-32E2B2C04720}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

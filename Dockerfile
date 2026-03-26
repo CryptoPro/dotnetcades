@@ -35,11 +35,11 @@ RUN git clone https://github.com/CryptoPro/dotnetcades.git
 
 WORKDIR /dotnetcades
 
-RUN cd ccades && mkdir build && cd build && \
+RUN cd src/ccades && mkdir build && cd build && \
     cmake .. && make -j$(nproc)
 
 RUN dotnet restore && dotnet build
 
 # docker run -it dotnetcades-build
 # /opt/cprocsp/bin/amd64/cryptcp -createcert -dn "CN=Test Certificate" -provtype 80 -cont '\\.\HDIMAGE\test' -ca https://cryptopro.ru/certsrv
-# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/dotnetcades/ccades && cd samples && dotnet run
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/dotnetcades/src/ccades && cd samples && dotnet run

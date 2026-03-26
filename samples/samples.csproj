@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\dotnetcades\dotnetcades.csproj" />
+    <ProjectReference Include="..\src\dotnetcades\dotnetcades.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
