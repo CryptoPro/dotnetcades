@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <stdlib.h>
 #include "CCadesKeyUsage.h"
 #include "CPPCadesCPKeyUsage.h"
 

@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <stdlib.h>
 #include "CCadesCertificate.h"
 #include "CPPCadesCPCertificate.h"
 

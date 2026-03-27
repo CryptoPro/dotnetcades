@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <stdlib.h>
 #include "CCadesEncodedData.h"
 #include "CPPCadesCPEncodedData.h"
 

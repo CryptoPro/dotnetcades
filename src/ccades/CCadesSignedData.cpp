@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <stdlib.h>
 #include "CCadesSignedData.h"
 #include "CPPCadesCPSignedData.h"
 

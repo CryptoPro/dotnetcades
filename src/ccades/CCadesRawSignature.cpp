@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <stdlib.h>
 #include "CCadesRawSignature.h"
 #include "CPPCadesRawSignature.h"
 

@@ -9,6 +9,7 @@
 #include "boost/shared_ptr.hpp"
 #include <iostream>
 #include <cstdint>
+#include <stdlib.h>
 
 #include "CSP_WinDef.h"
 #include "CSP_WinError.h"
