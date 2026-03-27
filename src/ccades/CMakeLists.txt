@@ -2,6 +2,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 SET(CMAKE_CXX_STANDARD 11)
 PROJECT(ccades LANGUAGES CXX)
     SET (ccades_LIB_SRCS
+            stdafx.cpp
             CCadesAbout.cpp
             CCadesAlgorithm.cpp
             CCadesAttribute.cpp
@@ -33,13 +34,13 @@ PROJECT(ccades LANGUAGES CXX)
             CCadesSymmetricAlgorithm.cpp
             CCadesVersion.cpp
             CCadesOID.cpp
-            errormsg.cpp
         )
 FIND_PACKAGE( Boost REQUIRED )
 
 ADD_DEFINITIONS(-DUNIX -DSIZEOF_VOID_P=${CMAKE_SIZEOF_VOID_P})
+ADD_COMPILE_OPTIONS(-fpermissive)
 
-SET(CMAKE_BUILD_TYPE Debug)
+# SET(CMAKE_BUILD_TYPE Debug)
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-write-strings")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-narrowing")
@@ -51,6 +52,7 @@ SET(ccades_DIRS
      /opt/cprocsp/include/pki/cppcades
      /opt/cprocsp/include/pki/cplib
      /opt/cprocsp/include/pki
+     ${CMAKE_CURRENT_SOURCE_DIR}/cplib
 )    
 
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIRS} )
