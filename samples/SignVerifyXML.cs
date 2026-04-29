@@ -7,7 +7,7 @@ namespace samples
     {
         public static void run()
         {
-            const string CertificateSN = "Test Certificate";
+            const string CertificateSN = "test";
             try
             {
                 using var oStore = new dotnetcades.Store();
