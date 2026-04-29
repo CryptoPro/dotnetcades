@@ -28,10 +28,7 @@ RUN apt-get install -y --no-install-recommends \
         ./csp/cprocsp-pki-cades* && \
     rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/CryptoPro/dotnetcades.git
-
-# for development purposes
-# COPY . /dotnetcades/
+COPY . /dotnetcades/
 
 WORKDIR /dotnetcades
 
