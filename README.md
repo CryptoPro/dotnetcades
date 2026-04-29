@@ -28,12 +28,6 @@ dotnetcades представляет собой библиотеку для .NET
 |[CAdESCOM.Store](https://docs.cryptopro.ru/cades/reference/cadescom/cadescom_class/store)|dotnetcades.Store|
 |[CAdESCOM.SymmetricAlgorithm](https://docs.cryptopro.ru/cades/reference/cadescom/cadescom_class/symmetricalgorithm)|dotnetcades.SymmetricAlgorithm|
 
-Лицензирование
----
-Библиотека распространяется бесплатно в виде исходных кодов и для своего функционирования не требует отдельной лицензии.
-Для формирования ЭЦП с использованием криптоалгоритма ГОСТ необходима лицензия на КриптоПро CSP. 
-Для формирования усовершенствованной ЭЦП необходимы лицензии на КриптоПро TSP Client и КриптоПро OCSP Client.
-
 В этом разделе
 ---
 [Сборка библиотеки для языка .NET](/doc/dotnetcades-build.md)<br/>
