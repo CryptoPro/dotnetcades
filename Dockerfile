@@ -32,10 +32,7 @@ COPY . /dotnetcades/
 
 WORKDIR /dotnetcades
 
-RUN cd src/ccades && mkdir build && cd build && \
-    cmake .. && make -j$(nproc)
-
-RUN dotnet restore && dotnet build
+RUN make
 
 # docker run -it dotnetcades-build
 # /opt/cprocsp/bin/amd64/cryptcp -createcert -dn "CN=Test Certificate" -provtype 80 -cont '\\.\HDIMAGE\test' -ca https://cryptopro.ru/certsrv
