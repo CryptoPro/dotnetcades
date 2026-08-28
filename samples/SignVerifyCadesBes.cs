@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using dotnetcades;
 
 namespace samples
@@ -8,7 +9,8 @@ namespace samples
         public static void run()
         {
             const string CertificateSN = "test";
-            const string DataToSign = "Test content to be signed";
+            const string TextToSign = "Test content to be signed";
+            string DataToSign = Convert.ToBase64String(Encoding.Default.GetBytes(TextToSign));
             try
             {
                 using var oStore = new dotnetcades.Store();
@@ -28,6 +30,7 @@ namespace samples
                 oSigner.CheckCertificate = true;
 
                 using var oSignedData = new dotnetcades.SignedData();
+                oSignedData.ContentEncoding = NC.CADESCOM_BASE64_TO_BINARY; 
                 oSignedData.Content = DataToSign;
                 var signature = oSignedData.SignCades(oSigner, NC.CADESCOM_CADES_BES);
                 Console.WriteLine($"Signed Message: {signature}");
