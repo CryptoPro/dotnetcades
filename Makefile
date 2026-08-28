@@ -40,7 +40,7 @@ docker-build: ## Build docker image for dotnetcades
 	docker build -t dotnetcades-build .
 
 docker: docker-build ## Run samples in docker container
-	docker run -it -e LD_LIBRARY_PATH=$(CCADES_BUILD_DIR) dotnetcades-build \
+	docker run -e LD_LIBRARY_PATH=$(CCADES_BUILD_DIR) dotnetcades-build \
 	dotnet run --project samples/
 
 rebuild: clean build ## Clean and rebuild the library from scratch

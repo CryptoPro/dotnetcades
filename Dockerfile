@@ -1,5 +1,5 @@
 # cp -r ~/csp/ .
-# docker build -t dotnetcades-build .
+# make docker
 
 FROM mcr.microsoft.com/dotnet/sdk:10.0
 
@@ -27,8 +27,10 @@ COPY . /dotnetcades/
 
 WORKDIR /dotnetcades
 
-RUN make
+RUN (SCRIPTS_DIR=./tests/scripts && \
+    chmod +x ${SCRIPTS_DIR}/*.sh && \
+    ${SCRIPTS_DIR}/setup-root.sh && \
+    ${SCRIPTS_DIR}/setup-leaf.sh && \
+    ${SCRIPTS_DIR}/setup-crl.sh) 
 
-# docker run -it dotnetcades-build
-# /opt/cprocsp/bin/amd64/cryptcp -createcert -dn "CN=Test Certificate" -provtype 80 -cont '\\.\HDIMAGE\test' -ca https://cryptopro.ru/certsrv
-# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/dotnetcades/src/ccades && cd samples && dotnet run
+RUN make
