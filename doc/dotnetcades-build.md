@@ -13,25 +13,17 @@
     ```
 1. Собрать образ:
     ```bash
-    docker build -t dotnetcades-build .
+    make docker-build
     ```
-1. Запустить контейнер с собранным образом:
+1. Выполнить пример в контейнере с тестовыми сертификатами:
     ```
-    docker run -it -w /dotnetcades/samples/ dotnetcades-build
-    ```
-1. Сгенерировать тестовый сертификат с привязкой к закрытому ключу:
-    ```
-    /opt/cprocsp/bin/amd64/cryptcp -createcert -dn "CN=test" -provtype 80 -cont '\\.\HDIMAGE\test' -ca https://cryptopro.ru/certsrv
-    ```
-1. Выполнить пример:
-    ```
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/dotnetcades/src/ccades && dotnet run
+    make docker
     ```
 
 
 ## Ubuntu
 
-Сборка производится на Ubuntu 24.04 (amd64) + КриптоПро CSP 5.0.13000 + .NET 3.1
+Сборка производится на Ubuntu 24.04 (amd64) + КриптоПро CSP 5.0.13000 + .NET 10.0
 
 1. Установить необходимые пакеты для сборки:
     ```
@@ -47,24 +39,17 @@
 1. Скачать исходный код dotnetcades
     ```
     git clone https://github.com/CryptoPro/dotnetcades.git
-    cd dotnetcades/src
+    cd dotnetcades
     ```
-1. Выполнить сборку ccades:
+1. Выполнить сборку ccades и dotnetcades:
     ```
-    cd ccades
-    mkdir build
-    cd build
-    cmake ..
-    make -j4
+    make build
     ```
 1. Обеспечить доступность собранной библиотеки libccades.so для dlopen ([подробнее](https://www.mono-project.com/docs/advanced/pinvoke/#linux-shared-library-search-path)).<br/> Например, добавить путь до libccades.so в переменную окружения LD_LIBRARY_PATH:
     ```
     export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/libccades_folder
     ```
-1. Выполнить сборку dotnetcades (и опционально запустить примеры из папки samples)
+1. Запустить примеры из папки samples
     ```
-    dotnet restore
-    dotnet build
-    cd samples
-    dotnet run
+    make run-samples
     ```
