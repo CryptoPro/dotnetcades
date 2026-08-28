@@ -1,32 +1,27 @@
 # cp -r ~/csp/ .
 # docker build -t dotnetcades-build .
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1
+FROM mcr.microsoft.com/dotnet/sdk:10.0
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list && \
-    sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -y git \
-        cmake \
-        build-essential \
-        libboost-all-dev \
-        lsb-release \
-        ca-certificates
+    cmake \
+    build-essential \
+    libboost-all-dev \
+    lsb-release \
+    ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN update-ca-certificates
 
 COPY csp csp
 
-RUN ./csp/install.sh
-
-RUN apt-get install -y --no-install-recommends \
-        ./csp/cprocsp-rdr-gui-gtk* \
-        ./csp/lsb-cprocsp-devel* \
-        ./csp/cprocsp-legacy* \
-        ./csp/cprocsp-pki-cades* && \
-    rm -rf /var/lib/apt/lists/*
+RUN ./csp/install.sh kc1 \
+    lsb-cprocsp-devel \
+    cprocsp-legacy \
+    cprocsp-pki-cades
 
 COPY . /dotnetcades/
 
