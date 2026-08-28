@@ -112,5 +112,6 @@ package-lock.json
 package.json
 
 linux-*/
+csp/
 *.deb
 *.rpm
