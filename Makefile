@@ -15,6 +15,7 @@ clean: clean-ccades clean-dotnetcades ## Clean project
 
 clean-ccades:
 	rm -fr src/ccades/build
+	rm -fr src/ccades/*.so
 
 clean-dotnetcades:
 	find . -type d \( -name "bin" -o -name "obj" \) -exec rm -fr {} +
