@@ -1,4 +1,4 @@
-# cp -r ~/linux-amd64_deb/ .
+# cp -r ~/csp/ .
 # docker build -t dotnetcades-build .
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1
@@ -17,7 +17,7 @@ RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /
 
 RUN update-ca-certificates
 
-COPY linux-amd64_deb csp
+COPY csp csp
 
 RUN ./csp/install.sh
 
