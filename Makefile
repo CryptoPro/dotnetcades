@@ -1,9 +1,13 @@
 .DEFAULT_GOAL := build
 
+CCADES_BUILD_DIR := src/ccades/build
+
 TARGETS := \
 	help \
 	clean clean-ccades clean-dotnetcades \
 	build build-ccades build-dotnetcades \
+	docker-build docker \
+	run-samples \
 	rebuild
 
 .PHONY: $(TARGETS)
@@ -14,8 +18,7 @@ help: ## Display this help screen
 clean: clean-ccades clean-dotnetcades ## Clean project
 
 clean-ccades:
-	rm -fr src/ccades/build
-	rm -fr src/ccades/*.so
+	rm -fr $(CCADES_BUILD_DIR)
 
 clean-dotnetcades:
 	find . -type d \( -name "bin" -o -name "obj" \) -exec rm -fr {} +
@@ -23,12 +26,22 @@ clean-dotnetcades:
 build: build-ccades build-dotnetcades ## Build library
 
 build-ccades:
-	cmake -S src/ccades -B src/ccades/build
-	cmake --build src/ccades/build -j$$(nproc)
+	cmake -S src/ccades -B $(CCADES_BUILD_DIR)
+	cmake --build $(CCADES_BUILD_DIR) -- -j$$(nproc)
 
 build-dotnetcades:
 	dotnet restore
 	dotnet build
+
+run-samples:
+	LD_LIBRARY_PATH=$(CCADES_BUILD_DIR) dotnet run --project samples/
+
+docker-build: ## Build docker image for dotnetcades
+	docker build -t dotnetcades-build .
+
+docker: docker-build ## Run samples in docker container
+	docker run -it -e LD_LIBRARY_PATH=$(CCADES_BUILD_DIR) dotnetcades-build \
+	dotnet run --project samples/
 
 rebuild: clean build ## Clean and rebuild the library from scratch
 
