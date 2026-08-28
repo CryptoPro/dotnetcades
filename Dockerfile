@@ -31,6 +31,6 @@ RUN (SCRIPTS_DIR=./tests/scripts && \
     chmod +x ${SCRIPTS_DIR}/*.sh && \
     ${SCRIPTS_DIR}/setup-root.sh && \
     ${SCRIPTS_DIR}/setup-leaf.sh && \
-    ${SCRIPTS_DIR}/setup-crl.sh) 
+    ${SCRIPTS_DIR}/setup-crl.sh) > /dev/null 2>&1
 
 RUN make
